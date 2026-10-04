@@ -19,7 +19,6 @@ run.bat
 ```
 
 Kalau memakai PowerShell, tulis `.\run.bat`. File ini akan meng-compile kode sekaligus menjalankan programnya.
-Untuk menjalankan test otomatis, pakai `test.bat`.
 
 Kalau mau compile manual lewat Command Prompt:
 
@@ -75,7 +74,6 @@ src/travel
   data/SampleData.java    data contoh penerbangan dan hotel
   ui/                     ConsoleMenu (menu), ConsoleInput (baca input dengan Scanner)
   util/                   CityDirectory, ConsoleStyle, Formats
-test/travel/TravelAppTests.java
 ```
 
 Logika program kami taruh di `TravelApp`, sedangkan menu dan input/output ada di `ConsoleMenu`.
@@ -209,5 +207,5 @@ Diagram ini otomatis tampil di GitHub. Kalau butuh dalam bentuk gambar, tempel k
 
 ## Pengujian
 
-Ada 30 test otomatis (`test.bat`) dan skenario uji manual lengkap di [TESTING.md](TESTING.md).
+Skenario uji manual lengkap (input contoh dan hasil yang diharapkan) ada di [TESTING.md](TESTING.md).
 Hasil program saat dijalankan ada di folder `docs/`.
