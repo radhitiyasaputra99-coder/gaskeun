@@ -1,67 +1,79 @@
-# Gaskeun - Gas ke mana aja! (Sistem Pemesanan Perjalanan, Aplikasi Konsol Java)
+# Gaskeun - Sistem Pemesanan Perjalanan
 
-Aplikasi konsol terinspirasi Traveloka / Tiket.com untuk **mencari, memesan, dan membatalkan**
-penerbangan dan hotel. Ditulis dengan Java 17 murni (tanpa library eksternal).
+Tugas proyek Java: aplikasi pemesanan perjalanan berbasis konsol, mirip Traveloka / Tiket.com.
+Pengguna bisa mencari, memesan, dan membatalkan penerbangan dan hotel.
 
 ## Cara menjalankan
 
-Prasyarat: **JDK 17 atau lebih baru** (`java -version`).
+Butuh JDK 17 atau lebih baru. Cek dengan `java -version`.
 
-```bat
-run.bat      :: compile + jalankan aplikasi
-test.bat     :: compile + jalankan 29 test otomatis
+Di Windows, buka terminal di folder project lalu jalankan:
+
+```
+run.bat
 ```
 
-Tanpa file `.bat` (Windows / Linux / macOS):
+Kalau pakai PowerShell tulis `.\run.bat`. File ini akan compile lalu langsung menjalankan programnya.
+Untuk menjalankan test: `test.bat`.
 
-```bash
-mkdir -p out/classes
-javac --release 17 -encoding UTF-8 -d out/classes $(find src -name '*.java')
-java -cp out/classes travel.Main
+Cara manual:
+
+```
+mkdir out\classes
+dir /s /b src\*.java > out\sources.txt
+javac --release 17 -encoding UTF-8 -d out\classes @out\sources.txt
+java -cp out\classes travel.Main
 ```
 
-Data demo dibangkitkan **relatif terhadap hari ini** (jadwal 30 hari ke depan), jadi pencarian selalu punya hasil.
-Kota yang didukung: Jakarta, Surabaya, Denpasar (alias `bali`), Yogyakarta (alias `jogja`), Bandung, Medan, Makassar.
-Kota boleh ditulis dengan nama, kode bandara (`CGK`), atau alias, huruf besar/kecil bebas.
+(Perintah ini untuk Command Prompt / `cmd`. Di Linux atau macOS ganti baris `dir` dengan
+`find src -name '*.java' > out/sources.txt` dan pakai `/` pada path.)
 
-## Fitur
+## Menu
 
-| Menu | Fungsi |
-|---|---|
-| 1. Cari Penerbangan | Input asal, tujuan, tanggal, jumlah penumpang. Tampil tabel (no. penerbangan, berangkat/tiba, durasi, harga, kursi). Tidak ada hasil: pesan "tidak ada penerbangan tersedia" + saran tanggal lain. |
-| 2. Cari Hotel | Input kota, check-in, check-out, jumlah tamu. Tampil ID, nama, bintang, harga/malam, total, sisa kamar. |
-| 3. Pesan Penerbangan | Pilih nomor penerbangan, isi nama tiap penumpang + kontak, ringkasan, konfirmasi, lalu e-tiket dengan nomor konfirmasi 6 digit acak. |
-| 4. Pesan Hotel | Pilih ID hotel, isi data tamu, ringkasan, konfirmasi, lalu voucher. |
-| 5. Batalkan Reservasi | Input nomor konfirmasi, tampil detail, konfirmasi, reservasi dihapus dan kursi/kamar dikembalikan. |
-| 6. Lihat Semua Pemesanan | Tabel semua reservasi + jumlah per jenis + total pengeluaran + lihat detail. |
+```
+1. Cari Penerbangan
+2. Cari Hotel
+3. Pesan Penerbangan
+4. Pesan Hotel
+5. Batalkan Reservasi
+6. Lihat Semua Pemesanan
+0. Keluar
+```
 
-Validasi input: angka salah, tanggal salah format / di masa lalu, kota tak dikenal, nama dan kontak tidak valid,
-nomor penerbangan / ID hotel / nomor konfirmasi yang tidak ada, kursi/kamar habis, dan EOF (Ctrl+Z / Ctrl+D)
-semuanya ditangani tanpa crash.
+- **Cari penerbangan**: isi kota asal, kota tujuan, tanggal (`yyyy-MM-dd`), dan jumlah penumpang. Hasil ditampilkan
+  dalam tabel, diurutkan dari harga termurah. Kalau kosong muncul pesan "tidak ada penerbangan tersedia".
+- **Cari hotel**: isi kota, tanggal check-in, check-out, dan jumlah tamu.
+- **Pesan**: pilih nomor penerbangan atau ID hotel dari hasil pencarian, isi data pemesan, lalu konfirmasi.
+  Setelah berhasil akan keluar nomor konfirmasi 6 digit acak.
+- **Batalkan**: masukkan nomor konfirmasi, kursi atau kamar dikembalikan.
+- **Lihat semua pemesanan**: menampilkan semua reservasi beserta total pengeluaran.
 
-## Desain
+Kota yang tersedia: Jakarta, Surabaya, Denpasar (bisa ditulis `bali`), Yogyakarta (bisa ditulis `jogja`), Bandung, Medan, Makassar.
+Data penerbangan dibuat otomatis untuk 30 hari ke depan dari hari ini, jadi tanggal di luar itu tidak ada hasilnya.
+Reservasi hanya tersimpan selama program berjalan (belum disimpan ke file).
 
-### Struktur paket
+Input yang salah (huruf di kolom angka, format tanggal salah, kota tidak dikenal, nomor penerbangan tidak ada, dan sebagainya)
+ditangani dengan try-catch dan pengguna diminta mengisi ulang, jadi program tidak berhenti.
+
+## Struktur project
 
 ```
 src/travel
- |- Main                      titik masuk, merangkai TravelApp + ConsoleMenu
- |- model/                    entitas & hierarki reservasi (tanpa I/O)
- |   Bookable, Flight, Hotel, Reservation (sealed), FlightReservation, HotelReservation,
- |   FlightSearchCriteria (record), HotelSearchCriteria (record)
- |- service/                  logika bisnis (tanpa I/O)
- |   TravelApp, ConfirmationGenerator (final)
- |- exception/                BookingException + 5 turunan (checked)
- |- data/SampleData           data demo
- |- ui/                       ConsoleMenu (alur dialog), ConsoleInput (Scanner aman), InputClosedException
- \- util/                     CityDirectory, ConsoleStyle, CurrencyFormat, DateFormats
-test/travel/TravelAppTests    29 test otomatis
+  Main.java               program utama
+  model/                  Flight, Hotel, Bookable, Reservation, FlightReservation, HotelReservation,
+                          FlightSearchCriteria, HotelSearchCriteria
+  service/                TravelApp (logika utama), ConfirmationGenerator
+  exception/              BookingException dan 5 turunannya
+  data/SampleData.java    data contoh penerbangan dan hotel
+  ui/                     ConsoleMenu (menu), ConsoleInput (baca input dengan Scanner)
+  util/                   CityDirectory, ConsoleStyle, CurrencyFormat, DateFormats
+test/travel/TravelAppTests.java
 ```
 
-Prinsip utamanya adalah **memisahkan logika dari tampilan**. `TravelApp` tidak tahu soal Scanner/`System.out`,
-jadi bisa diuji langsung dan bisa dipakai antarmuka lain (web/GUI) tanpa diubah.
+Logika program ada di `TravelApp`, sedangkan menu dan input/output ada di `ConsoleMenu`. Dipisah supaya
+`TravelApp` bisa dites tanpa harus mengetik input manual.
 
-### Diagram UML
+## Diagram UML
 
 ```mermaid
 classDiagram
@@ -71,7 +83,6 @@ classDiagram
         +getId() String
         +getName() String
         +getPrice() long
-        +priceLabel() String
     }
     class Flight {
         -String flightNumber
@@ -79,7 +90,6 @@ classDiagram
         -String origin
         -String destination
         -LocalDate date
-        -LocalTime departureTime
         -long price
         -int seatsAvailable
         -int passengers
@@ -98,7 +108,6 @@ classDiagram
         -long pricePerNight
         -int confirmationNumber
         +roomsNeededFor(int) int
-        +stayPrice(...) long
         +bookedCopy(...) Hotel
     }
     class Reservation {
@@ -131,7 +140,6 @@ classDiagram
         +searchHotels(criteria) List~Hotel~
         +bookHotel(...) HotelReservation
         +cancelReservation(int) String
-        +getReservations() List~Reservation~
     }
     class ConfirmationGenerator {
         <<final>>
@@ -162,42 +170,36 @@ classDiagram
     BookingException <|-- NoRoomsAvailableException
 ```
 
-(Diagram dirender otomatis di GitHub / VS Code. Untuk gambar, tempel blok di atas ke <https://mermaid.live>.)
+Diagram ini otomatis tampil di GitHub. Kalau butuh gambar, tempel kodenya ke https://mermaid.live.
 
-### Keputusan desain yang perlu dijelaskan
+## Materi yang dipakai
 
-- **Flight/Hotel punya dua peran** (inventori dan snapshot pesanan). Spesifikasi meminta field
-  `passengers` / `confirmationNumber` ada di `Flight` dan `Hotel`. Agar banyak pesanan pada penerbangan yang sama tidak saling menimpa,
-  `bookedCopy(...)` membuat salinan yang menyimpan data pesanan, sedangkan objek katalog tetap bersih.
-- **Ketersediaan kamar dihitung dari reservasi aktif**, bukan counter yang diubah-ubah. Pesanan yang rentang
-  tanggalnya tumpang tindih mengurangi sisa kamar, tamu yang check-in di hari check-out tamu lain tidak bentrok,
-  dan pembatalan otomatis melepas kamar (tidak ada state ganda yang bisa tidak sinkron).
-- **Uang memakai `long`** (Rupiah tidak punya sen), bukan `double`, untuk menghindari galat pembulatan.
-- **Waktu disuntik lewat `Clock`**, jadi logika "tanggal tidak boleh di masa lalu" dan hasil test deterministik.
-- **Criteria berbentuk `record`** yang memvalidasi dirinya di compact constructor, jadi objek tidak valid tidak pernah ada.
-- Target `--release 17`: `instanceof` pattern, `sealed`, `record`, switch expression, dan text API Java 17 dipakai.
-  `switch` dengan pattern case baru final di Java 21, jadi pembatalan memakai rantai `instanceof` agar tetap jalan di JDK 17.
-  Di JDK 21+ rantai itu bisa diganti `switch (target) { case FlightReservation fr -> ...; case HotelReservation hr -> ...; }`
-  tanpa `default`, karena `Reservation` sealed.
-
-## Pemetaan ke topik kuliah dan rubrik
-
-| Topik / kriteria | Letak di kode |
+| Materi | Dipakai di |
 |---|---|
-| Lingkungan Java, variabel, tipe data, I/O | `ConsoleInput` (Scanner, `System.out`), tipe `int`/`long`/`String`/`LocalDate` |
-| Kelas, objek, metode | `Flight`, `Hotel`, `TravelApp`, `toString()` pada entitas |
-| Seleksi & perulangan | Loop `while` + `switch` di `ConsoleMenu.run()`, retry loop di `ConsoleInput`, iterasi di `TravelApp.findReservation` |
-| Array & koleksi | `ArrayList<Flight>`, `ArrayList<Hotel>`, `ArrayList<Reservation>`, `Map` hasil `countByType()` |
-| Pewarisan, polimorfisme | `Reservation` -> `FlightReservation`/`HotelReservation`; `display()`/`cancel()`/`summary()` dipanggil lewat referensi `Reservation` |
-| Enkapsulasi | Semua field `private` + getter/setter (`setConfirmationNumber`, `setSeatsAvailable`, dst.) |
-| Kelas abstrak & interface | `abstract class Reservation`, `interface Bookable` |
-| Exception | 5 exception custom (checked), `try/catch/finally` di `ConsoleInput`/`ConsoleMenu`, validasi `IllegalArgumentException` di record |
+| Input/Output | `ConsoleInput` (Scanner) dan `System.out` di `ConsoleMenu` |
+| Kelas, objek, method | `Flight`, `Hotel`, `TravelApp`, method `toString()` |
+| Seleksi dan perulangan | `while` dan `switch` di `ConsoleMenu.run()`, perulangan input di `ConsoleInput` |
+| Array dan koleksi | `ArrayList<Flight>`, `ArrayList<Hotel>`, `ArrayList<Reservation>` di `TravelApp` |
+| Pewarisan dan polimorfisme | `Reservation` diturunkan ke `FlightReservation` dan `HotelReservation`, method `display()` dan `cancel()` di-override |
+| Enkapsulasi | semua field `private` dengan getter dan setter |
+| Kelas abstrak dan interface | `abstract class Reservation` dan `interface Bookable` |
+| Penanganan exception | custom exception (misalnya `ReservationNotFoundException`) dan try-catch di input |
 | Pattern matching | `instanceof FlightReservation fr` di `TravelApp.cancelReservation` |
-| Lambda & stream | `stream().filter().sorted().toList()` di `searchFlights`/`searchHotels`; `Comparator` method reference; `Collectors.groupingBy` |
-| Sealed & final | `sealed abstract class Reservation permits ...`; `final` pada `FlightReservation`, `HotelReservation`, `ConfirmationGenerator`, `Main` |
-| Dokumentasi & pengujian | README ini, [TESTING.md](TESTING.md), `docs/sample-session.txt`, `TravelAppTests` |
+| Lambda dan stream | `stream().filter(...).sorted(...)` di `searchFlights` dan `searchHotels` |
+| Sealed dan final | `sealed abstract class Reservation permits ...`, kelas `final` pada `FlightReservation`, `HotelReservation`, `ConfirmationGenerator` |
 
-## Pengembangan lanjutan (di luar cakupan tugas)
+## Catatan desain
 
-Menyimpan reservasi ke file/database agar bertahan antar sesi, pencarian pulang-pergi, pilihan kelas kabin,
-dan antarmuka web yang memanggil `TravelApp` yang sama.
+- Class `Flight` dan `Hotel` dipakai dua kali: sebagai data di katalog, dan sebagai salinan saat dipesan
+  (method `bookedCopy`) yang menyimpan jumlah penumpang dan nomor konfirmasi. Ini supaya beberapa pesanan di penerbangan
+  yang sama tidak saling menimpa data.
+- Sisa kamar hotel dihitung dari reservasi yang masih aktif di tanggal yang bertabrakan, jadi saat reservasi dibatalkan
+  kamarnya otomatis tersedia lagi.
+- Harga memakai `long` karena Rupiah tidak punya sen.
+- Pembatalan memakai `instanceof` karena `switch` dengan pattern baru resmi di Java 21, sedangkan program ini
+  dicompile untuk Java 17.
+
+## Pengujian
+
+Ada 29 test otomatis (`test.bat`) dan skenario uji manual lengkap di [TESTING.md](TESTING.md).
+Hasil jalannya program ada di folder `docs/`.
