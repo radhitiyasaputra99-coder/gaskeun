@@ -293,7 +293,7 @@ classDiagram
     note for NoRoomsAvailableException "kamar penuh di tanggal yang dipilih"
 ```
 
-## Penerapan materi kuliah
+## Penerapan sesuai studi kasus
 
 | Materi | Dipakai di |
 |---|---|
@@ -309,7 +309,7 @@ classDiagram
 | Lambda dan stream | `stream().filter(...).sorted(...)` di `searchFlights` dan `searchHotels` |
 | Sealed dan final | `sealed abstract class Reservation permits ...`, serta kelas `final` pada `FlightReservation`, `HotelReservation`, dan `ConfirmationGenerator` |
 
-## Beberapa keputusan desain
+## Keputusan desain kami
 
 - **`Flight` dan `Hotel` punya dua peran.** Satu sebagai data di katalog, satu lagi sebagai salinan saat dipesan
   (method `bookedCopy`) yang menyimpan jumlah penumpang dan nomor konfirmasi. Dengan begini beberapa pesanan di penerbangan yang sama
