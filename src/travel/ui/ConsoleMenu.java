@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,7 @@ import travel.model.Reservation;
 import travel.service.TravelApp;
 import travel.util.CityDirectory;
 import travel.util.ConsoleStyle;
-import travel.util.CurrencyFormat;
-import travel.util.DateFormats;
+import travel.util.Formats;
 
 public class ConsoleMenu {
 
@@ -57,7 +57,7 @@ public class ConsoleMenu {
             }
             out.println();
             out.println("Terima kasih telah menjelajah bareng NusaGo. Selamat jalan-jalan!");
-        } catch (InputClosedException e) {
+        } catch (NoSuchElementException e) {
             out.println();
             out.println("Input ditutup. Program berhenti.");
         } finally {
@@ -69,7 +69,7 @@ public class ConsoleMenu {
         out.println(ConsoleStyle.box("NUSAGO - Jelajahi Nusantara!", List.of(
                 "Sistem pemesanan penerbangan & hotel berbasis konsol.",
                 "Data demo: jadwal penerbangan 30 hari ke depan mulai "
-                        + app.today().format(DateFormats.ISO) + ".")));
+                        + app.today().format(Formats.ISO) + ".")));
     }
 
     private void printMenu() {
@@ -115,7 +115,7 @@ public class ConsoleMenu {
                 List<LocalDate> alternatives = app.alternativeFlightDates(criteria);
                 if (!alternatives.isEmpty()) {
                     out.println("Tanggal lain yang masih tersedia untuk rute ini: " + alternatives.stream()
-                            .map(d -> d.format(DateFormats.ISO))
+                            .map(d -> d.format(Formats.ISO))
                             .collect(Collectors.joining(", ")));
                 }
                 if (!input.confirm("Coba cari lagi dengan kriteria lain")) {
@@ -137,17 +137,17 @@ public class ConsoleMenu {
         out.printf("Penerbangan %s (%s) -> %s (%s) | %s | %d penumpang | urut harga termurah%n",
                 c.origin(), CityDirectory.codeOf(c.origin()),
                 c.destination(), CityDirectory.codeOf(c.destination()),
-                c.date().format(DateFormats.DATE), c.passengers());
+                c.date().format(Formats.DATE), c.passengers());
 
         List<String[]> rows = results.stream()
                 .map(f -> new String[]{
                         f.getFlightNumber(),
                         f.getAirline(),
-                        f.getDepartureTime().format(DateFormats.TIME),
+                        f.getDepartureTime().format(Formats.TIME),
                         f.getArrivalLabel(),
                         f.getDurationLabel(),
-                        CurrencyFormat.rupiah(f.getPrice()),
-                        CurrencyFormat.rupiah(f.getPrice() * c.passengers()),
+                        Formats.rupiah(f.getPrice()),
+                        Formats.rupiah(f.getPrice() * c.passengers()),
                         String.valueOf(f.getSeatsAvailable())})
                 .toList();
         out.println(ConsoleStyle.table(
@@ -182,10 +182,10 @@ public class ConsoleMenu {
         out.println(ConsoleStyle.box("RINGKASAN PESANAN", List.of(
                 "Penerbangan : " + chosen.getFlightNumber() + " - " + chosen.getAirline(),
                 "Rute        : " + chosen.getOrigin() + " -> " + chosen.getDestination(),
-                "Berangkat   : " + chosen.getDate().format(DateFormats.DATE) + " "
-                        + chosen.getDepartureTime().format(DateFormats.TIME),
+                "Berangkat   : " + chosen.getDate().format(Formats.DATE) + " "
+                        + chosen.getDepartureTime().format(Formats.TIME),
                 "Penumpang   : " + String.join(", ", names),
-                "Total bayar : " + CurrencyFormat.rupiah(chosen.getPrice() * names.size()))));
+                "Total bayar : " + Formats.rupiah(chosen.getPrice() * names.size()))));
         if (!input.confirm("Konfirmasi pemesanan")) {
             out.println("Pemesanan dibatalkan.");
             return;
@@ -246,7 +246,7 @@ public class ConsoleMenu {
     private void printHotelTable(List<Hotel> results, HotelSearchCriteria c) {
         out.println();
         out.printf("Hotel di %s | %s s/d %s (%d malam) | %d tamu | urut harga termurah%n",
-                c.location(), c.checkIn().format(DateFormats.DATE), c.checkOut().format(DateFormats.DATE),
+                c.location(), c.checkIn().format(Formats.DATE), c.checkOut().format(Formats.DATE),
                 c.nights(), c.guests());
 
         List<String[]> rows = results.stream()
@@ -254,9 +254,9 @@ public class ConsoleMenu {
                         h.getHotelId(),
                         h.getName(),
                         h.getStarsLabel(),
-                        CurrencyFormat.rupiah(h.getPricePerNight()),
+                        Formats.rupiah(h.getPricePerNight()),
                         h.roomsNeededFor(c.guests()) + " kamar",
-                        CurrencyFormat.rupiah(h.stayPrice(c.checkIn(), c.checkOut(), c.guests())),
+                        Formats.rupiah(h.stayPrice(c.checkIn(), c.checkOut(), c.guests())),
                         String.valueOf(app.availableRooms(h, c.checkIn(), c.checkOut()))})
                 .toList();
         out.println(ConsoleStyle.table(
@@ -288,10 +288,10 @@ public class ConsoleMenu {
         out.println(ConsoleStyle.box("RINGKASAN PESANAN", List.of(
                 "Hotel       : " + chosen.getName() + " (" + chosen.getStarsLabel() + ")",
                 "Lokasi      : " + chosen.getLocation(),
-                "Menginap    : " + criteria.checkIn().format(DateFormats.DATE) + " s/d "
-                        + criteria.checkOut().format(DateFormats.DATE) + " (" + criteria.nights() + " malam)",
+                "Menginap    : " + criteria.checkIn().format(Formats.DATE) + " s/d "
+                        + criteria.checkOut().format(Formats.DATE) + " (" + criteria.nights() + " malam)",
                 "Tamu/Kamar  : " + criteria.guests() + " tamu / " + chosen.roomsNeededFor(criteria.guests()) + " kamar",
-                "Total bayar : " + CurrencyFormat.rupiah(
+                "Total bayar : " + Formats.rupiah(
                         chosen.stayPrice(criteria.checkIn(), criteria.checkOut(), criteria.guests())))));
         if (!input.confirm("Konfirmasi pemesanan")) {
             out.println("Pemesanan dibatalkan.");
@@ -339,13 +339,13 @@ public class ConsoleMenu {
                         String.valueOf(r.getConfirmationNumber()),
                         r.getTypeLabel(),
                         r.summary(),
-                        CurrencyFormat.rupiah(r.getTotalPrice()),
-                        r.getBookedAt().format(DateFormats.DATE_TIME)})
+                        Formats.rupiah(r.getTotalPrice()),
+                        r.getBookedAt().format(Formats.DATE_TIME)})
                 .toList();
         out.println(ConsoleStyle.table(
                 new String[]{"No. Konfirmasi", "Jenis", "Ringkasan", "Total", "Dipesan"}, rows, 3));
         app.countByType().forEach((type, count) -> out.println("  " + type + ": " + count + " pemesanan"));
-        out.println("  Total pengeluaran: " + CurrencyFormat.rupiah(app.totalSpent()));
+        out.println("  Total pengeluaran: " + Formats.rupiah(app.totalSpent()));
 
         out.println();
         OptionalInt number = input.promptOptionalInt("Masukkan nomor konfirmasi untuk melihat detail (kosongkan untuk kembali)");

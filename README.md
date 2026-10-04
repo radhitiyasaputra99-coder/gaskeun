@@ -74,7 +74,7 @@ src/travel
   exception/              BookingException dan 5 turunannya
   data/SampleData.java    data contoh penerbangan dan hotel
   ui/                     ConsoleMenu (menu), ConsoleInput (baca input dengan Scanner)
-  util/                   CityDirectory, ConsoleStyle, CurrencyFormat, DateFormats
+  util/                   CityDirectory, ConsoleStyle, Formats
 test/travel/TravelAppTests.java
 ```
 

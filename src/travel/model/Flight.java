@@ -6,8 +6,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import travel.exception.InsufficientSeatsException;
-import travel.util.CurrencyFormat;
-import travel.util.DateFormats;
+import travel.util.Formats;
 
 public class Flight implements Bookable {
 
@@ -75,7 +74,7 @@ public class Flight implements Bookable {
 
     public String getArrivalLabel() {
         LocalDateTime arrival = getArrivalDateTime();
-        String time = arrival.toLocalTime().format(DateFormats.TIME);
+        String time = arrival.toLocalTime().format(Formats.TIME);
         long dayShift = ChronoUnit.DAYS.between(date, arrival.toLocalDate());
         return dayShift > 0 ? time + " (+" + dayShift + ")" : time;
     }
@@ -169,7 +168,7 @@ public class Flight implements Bookable {
     public String toString() {
         return String.format("%s %s | %s -> %s | %s %s-%s | %s | sisa %d kursi",
                 flightNumber, airline, origin, destination,
-                date.format(DateFormats.ISO), departureTime.format(DateFormats.TIME), getArrivalLabel(),
-                CurrencyFormat.rupiah(price), seatsAvailable);
+                date.format(Formats.ISO), departureTime.format(Formats.TIME), getArrivalLabel(),
+                Formats.rupiah(price), seatsAvailable);
     }
 }

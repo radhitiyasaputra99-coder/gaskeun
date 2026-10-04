@@ -3,8 +3,7 @@ package travel.model;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-import travel.util.CurrencyFormat;
-import travel.util.DateFormats;
+import travel.util.Formats;
 
 public class Hotel implements Bookable {
 
@@ -154,8 +153,8 @@ public class Hotel implements Bookable {
     @Override
     public String toString() {
         String stay = checkIn == null ? ""
-                : " | " + checkIn.format(DateFormats.ISO) + " s/d " + checkOut.format(DateFormats.ISO);
+                : " | " + checkIn.format(Formats.ISO) + " s/d " + checkOut.format(Formats.ISO);
         return String.format("%s %s (%s) | %s | %s/malam%s",
-                hotelId, name, getStarsLabel(), location, CurrencyFormat.rupiah(pricePerNight), stay);
+                hotelId, name, getStarsLabel(), location, Formats.rupiah(pricePerNight), stay);
     }
 }

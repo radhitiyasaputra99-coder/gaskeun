@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import travel.util.CurrencyFormat;
-import travel.util.DateFormats;
+import travel.util.Formats;
 
 public final class HotelReservation extends Reservation {
 
@@ -40,7 +39,7 @@ public final class HotelReservation extends Reservation {
     public String summary() {
         return String.format("%s (%s), %s s/d %s, %d tamu",
                 hotel.getName(), hotel.getLocation(),
-                hotel.getCheckIn().format(DateFormats.ISO), hotel.getCheckOut().format(DateFormats.ISO),
+                hotel.getCheckIn().format(Formats.ISO), hotel.getCheckOut().format(Formats.ISO),
                 hotel.getGuests());
     }
 
@@ -56,15 +55,15 @@ public final class HotelReservation extends Reservation {
         lines.add(field("Hotel", hotel.getName() + " (" + hotel.getStarsLabel() + ")"));
         lines.add(field("ID Hotel", hotel.getHotelId()));
         lines.add(field("Lokasi", hotel.getLocation()));
-        lines.add(field("Check-in", hotel.getCheckIn().format(DateFormats.DATE)));
-        lines.add(field("Check-out", hotel.getCheckOut().format(DateFormats.DATE)));
+        lines.add(field("Check-in", hotel.getCheckIn().format(Formats.DATE)));
+        lines.add(field("Check-out", hotel.getCheckOut().format(Formats.DATE)));
         lines.add(field("Lama menginap", hotel.getNights() + " malam"));
         lines.add(field("Tamu / Kamar", hotel.getGuests() + " tamu / " + getRooms() + " kamar"));
         lines.add(field("Nama tamu", getCustomerName()));
         lines.add(field("Kontak", getContact()));
-        lines.add(field("Harga/malam", CurrencyFormat.rupiah(hotel.getPricePerNight())));
-        lines.add(field("Total Bayar", CurrencyFormat.rupiah(getTotalPrice())));
-        lines.add(field("Dipesan pada", getBookedAt().format(DateFormats.DATE_TIME)));
+        lines.add(field("Harga/malam", Formats.rupiah(hotel.getPricePerNight())));
+        lines.add(field("Total Bayar", Formats.rupiah(getTotalPrice())));
+        lines.add(field("Dipesan pada", getBookedAt().format(Formats.DATE_TIME)));
         lines.add(field("Status", "TERKONFIRMASI"));
         printBox(out, "VOUCHER HOTEL", lines);
     }

@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import travel.util.CityDirectory;
-import travel.util.CurrencyFormat;
-import travel.util.DateFormats;
+import travel.util.Formats;
 
 public final class FlightReservation extends Reservation {
 
@@ -47,7 +46,7 @@ public final class FlightReservation extends Reservation {
     public String summary() {
         return String.format("%s %s -> %s, %s, %d penumpang",
                 flight.getFlightNumber(), flight.getOrigin(), flight.getDestination(),
-                flight.getDate().format(DateFormats.ISO), flight.getPassengers());
+                flight.getDate().format(Formats.ISO), flight.getPassengers());
     }
 
     @Override
@@ -63,17 +62,17 @@ public final class FlightReservation extends Reservation {
         lines.add(field("Penerbangan", flight.getFlightNumber() + " - " + flight.getAirline()));
         lines.add(field("Rute", flight.getOrigin() + " (" + CityDirectory.codeOf(flight.getOrigin()) + ") -> "
                 + flight.getDestination() + " (" + CityDirectory.codeOf(flight.getDestination()) + ")"));
-        lines.add(field("Berangkat", flight.getDate().format(DateFormats.DATE) + " "
-                + flight.getDepartureTime().format(DateFormats.TIME)));
+        lines.add(field("Berangkat", flight.getDate().format(Formats.DATE) + " "
+                + flight.getDepartureTime().format(Formats.TIME)));
         lines.add(field("Tiba", flight.getArrivalLabel()));
         lines.add(field("Penumpang", flight.getPassengers() + " orang"));
         for (int i = 0; i < passengerNames.size(); i++) {
             lines.add("  " + (i + 1) + ". " + passengerNames.get(i));
         }
         lines.add(field("Kontak", getContact()));
-        lines.add(field("Harga/orang", CurrencyFormat.rupiah(flight.getPrice())));
-        lines.add(field("Total Bayar", CurrencyFormat.rupiah(getTotalPrice())));
-        lines.add(field("Dipesan pada", getBookedAt().format(DateFormats.DATE_TIME)));
+        lines.add(field("Harga/orang", Formats.rupiah(flight.getPrice())));
+        lines.add(field("Total Bayar", Formats.rupiah(getTotalPrice())));
+        lines.add(field("Dipesan pada", getBookedAt().format(Formats.DATE_TIME)));
         lines.add(field("Status", "TERKONFIRMASI"));
         printBox(out, "E-TIKET PENERBANGAN", lines);
     }

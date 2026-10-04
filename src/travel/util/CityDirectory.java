@@ -2,7 +2,6 @@ package travel.util;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -45,10 +44,6 @@ public final class CityDirectory {
 
     public static String codeOf(String city) {
         return CODES.getOrDefault(city, city);
-    }
-
-    public static List<String> cities() {
-        return List.copyOf(CODES.keySet());
     }
 
     public static String describeAll() {

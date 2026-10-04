@@ -1,11 +1,20 @@
 package travel.util;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public final class DateFormats {
+public final class Formats {
 
     private static final Locale INDONESIA = new Locale("id", "ID");
+
+    private static final DecimalFormatSymbols SYMBOLS = new DecimalFormatSymbols();
+
+    static {
+        SYMBOLS.setGroupingSeparator('.');
+        SYMBOLS.setDecimalSeparator(',');
+    }
 
     public static final DateTimeFormatter ISO = DateTimeFormatter.ISO_LOCAL_DATE;
 
@@ -15,6 +24,10 @@ public final class DateFormats {
 
     public static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
 
-    private DateFormats() {
+    private Formats() {
+    }
+
+    public static String rupiah(long amount) {
+        return "Rp " + new DecimalFormat("#,##0", SYMBOLS).format(amount);
     }
 }

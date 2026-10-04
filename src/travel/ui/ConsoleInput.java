@@ -6,14 +6,13 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import travel.util.CityDirectory;
-import travel.util.DateFormats;
+import travel.util.Formats;
 
 public class ConsoleInput implements AutoCloseable {
 
@@ -32,11 +31,7 @@ public class ConsoleInput implements AutoCloseable {
     public String readLine(String label) {
         out.print(label + ": ");
         out.flush();
-        try {
-            return scanner.nextLine().trim();
-        } catch (NoSuchElementException e) {
-            throw new InputClosedException();
-        }
+        return scanner.nextLine().trim();
     }
 
     public int promptInt(String label, int min, int max) {
@@ -86,10 +81,10 @@ public class ConsoleInput implements AutoCloseable {
                 if (!date.isBefore(minDate)) {
                     return date;
                 }
-                out.println("! Tanggal tidak boleh sebelum " + minDate.format(DateFormats.ISO) + ".");
+                out.println("! Tanggal tidak boleh sebelum " + minDate.format(Formats.ISO) + ".");
             } catch (DateTimeParseException e) {
                 out.println("! Format tanggal salah. Gunakan yyyy-MM-dd (contoh: "
-                        + minDate.plusDays(7).format(DateFormats.ISO) + ").");
+                        + minDate.plusDays(7).format(Formats.ISO) + ").");
             }
         }
     }

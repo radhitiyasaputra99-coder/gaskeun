@@ -32,7 +32,7 @@ import travel.service.ConfirmationGenerator;
 import travel.service.TravelApp;
 import travel.ui.ConsoleMenu;
 import travel.util.CityDirectory;
-import travel.util.CurrencyFormat;
+import travel.util.Formats;
 
 public final class TravelAppTests {
 
@@ -52,7 +52,7 @@ public final class TravelAppTests {
     public static void main(String[] args) {
         System.out.println("== Entitas & utilitas ==");
         test("Format Rupiah memakai titik pemisah ribuan", () ->
-                assertEquals("Rp 1.450.000", CurrencyFormat.rupiah(1_450_000), "format"));
+                assertEquals("Rp 1.450.000", Formats.rupiah(1_450_000), "format"));
         test("CityDirectory mengenali nama, kode, dan alias (case-insensitive)", () -> {
             assertEquals(Optional.of("Denpasar"), CityDirectory.resolve("BALI"), "alias");
             assertEquals(Optional.of("Jakarta"), CityDirectory.resolve(" cgk "), "kode");
