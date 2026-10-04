@@ -1,0 +1,518 @@
+# Transkrip uji alur lengkap (jam sistem 2026-10-04; input diketik setelah tanda ':' )
+# Nomor konfirmasi acak: penerbangan=262964, hotel=139258
++------------------------------------------------------------------+
+| GASKEUN - Gas ke mana aja!                                       |
++------------------------------------------------------------------+
+| Sistem pemesanan penerbangan & hotel berbasis konsol.            |
+| Data demo: jadwal penerbangan 30 hari ke depan mulai 2026-10-04. |
++------------------------------------------------------------------+
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> A. Validasi menu
+Pilih menu (0-6): abc
+! Input harus berupa angka (contoh: 0).
+Pilih menu (0-6): 9
+! Masukkan angka antara 0 dan 6.
+
+>>>>>> B1. Cari penerbangan (ada hasil)
+Pilih menu (0-6): 1
+
+=== PENCARIAN PENERBANGAN ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota asal: jakarta
+Masukkan kota tujuan: bali
+Masukkan tanggal perjalanan (yyyy-MM-dd): 2026-10-07
+Masukkan jumlah penumpang (1-9): 2
+
+Penerbangan Jakarta (CGK) -> Denpasar (DPS) | Rab, 07 Okt 2026 | 2 penumpang | urut harga termurah
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| No. Penerbangan | Maskapai         | Berangkat | Tiba  | Durasi | Harga/orang  | Total        | Kursi |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| JT-650          | Lion Air         | 12:15     | 14:10 | 1j 55m | Rp 1.064.000 | Rp 2.128.000 |    32 |
+| SJ-262          | Sriwijaya Air    | 18:30     | 20:25 | 1j 55m | Rp 1.208.000 | Rp 2.416.000 |    43 |
+| GA-410          | Garuda Indonesia | 07:00     | 08:50 | 1j 50m | Rp 1.581.000 | Rp 3.162.000 |    21 |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+Pesan salah satu penerbangan ini sekarang (y/n): n
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> B2. Cari penerbangan (tidak ada hasil)
+Pilih menu (0-6): 1
+
+=== PENCARIAN PENERBANGAN ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota asal: bandung
+Masukkan kota tujuan: medan
+Masukkan tanggal perjalanan (yyyy-MM-dd): 2026-10-07
+Masukkan jumlah penumpang (1-9): 1
+
+Maaf, tidak ada penerbangan tersedia untuk rute, tanggal, dan jumlah penumpang tersebut.
+Coba cari lagi dengan kriteria lain (y/n): n
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> B3. Validasi input pencarian penerbangan
+Pilih menu (0-6): 1
+
+=== PENCARIAN PENERBANGAN ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota asal: atlantis
+! Kota tidak dikenal. Pilihan: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota asal: jakarta
+Masukkan kota tujuan: bali
+Masukkan tanggal perjalanan (yyyy-MM-dd): besok
+! Format tanggal salah. Gunakan yyyy-MM-dd (contoh: 2026-10-11).
+Masukkan tanggal perjalanan (yyyy-MM-dd): 2020-01-01
+! Tanggal tidak boleh sebelum 2026-10-04.
+Masukkan tanggal perjalanan (yyyy-MM-dd): 2026-10-07
+Masukkan jumlah penumpang (1-9): dua
+! Input harus berupa angka (contoh: 1).
+Masukkan jumlah penumpang (1-9): 2
+
+Penerbangan Jakarta (CGK) -> Denpasar (DPS) | Rab, 07 Okt 2026 | 2 penumpang | urut harga termurah
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| No. Penerbangan | Maskapai         | Berangkat | Tiba  | Durasi | Harga/orang  | Total        | Kursi |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| JT-650          | Lion Air         | 12:15     | 14:10 | 1j 55m | Rp 1.064.000 | Rp 2.128.000 |    32 |
+| SJ-262          | Sriwijaya Air    | 18:30     | 20:25 | 1j 55m | Rp 1.208.000 | Rp 2.416.000 |    43 |
+| GA-410          | Garuda Indonesia | 07:00     | 08:50 | 1j 50m | Rp 1.581.000 | Rp 3.162.000 |    21 |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+Pesan salah satu penerbangan ini sekarang (y/n): n
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> C. Cari hotel
+Pilih menu (0-6): 2
+
+=== PENCARIAN HOTEL ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota (lokasi): denpasar
+Masukkan tanggal check-in (yyyy-MM-dd): 2026-10-07
+Masukkan tanggal check-out (yyyy-MM-dd): 2026-10-09
+Masukkan jumlah tamu (1-8): 3
+
+Hotel di Denpasar | Rab, 07 Okt 2026 s/d Jum, 09 Okt 2026 (2 malam) | 3 tamu | urut harga termurah
++-------+------------------------+---------+--------------+-----------+--------------+------------+
+| ID    | Nama Hotel             | Bintang | Harga/malam  | Kebutuhan | Total        | Sisa kamar |
++-------+------------------------+---------+--------------+-----------+--------------+------------+
+| H-203 | Sanur Backpacker House | **      |   Rp 380.000 | 2 kamar   | Rp 1.520.000 |         10 |
+| H-201 | Kuta Beach Resort      | ****    | Rp 1.650.000 | 1 kamar   | Rp 3.300.000 |         15 |
+| H-204 | Seminyak Boutique      | ****    | Rp 1.900.000 | 2 kamar   | Rp 7.600.000 |          2 |
+| H-202 | Ubud Garden Villa      | *****   | Rp 2.800.000 | 1 kamar   | Rp 5.600.000 |          6 |
++-------+------------------------+---------+--------------+-----------+--------------+------------+
+Pesan salah satu hotel ini sekarang (y/n): n
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> D. Pesan penerbangan
+Pilih menu (0-6): 3
+
+=== PEMESANAN PENERBANGAN ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota asal: jakarta
+Masukkan kota tujuan: bali
+Masukkan tanggal perjalanan (yyyy-MM-dd): 2026-10-07
+Masukkan jumlah penumpang (1-9): 2
+
+Penerbangan Jakarta (CGK) -> Denpasar (DPS) | Rab, 07 Okt 2026 | 2 penumpang | urut harga termurah
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| No. Penerbangan | Maskapai         | Berangkat | Tiba  | Durasi | Harga/orang  | Total        | Kursi |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| JT-650          | Lion Air         | 12:15     | 14:10 | 1j 55m | Rp 1.064.000 | Rp 2.128.000 |    32 |
+| SJ-262          | Sriwijaya Air    | 18:30     | 20:25 | 1j 55m | Rp 1.208.000 | Rp 2.416.000 |    43 |
+| GA-410          | Garuda Indonesia | 07:00     | 08:50 | 1j 50m | Rp 1.581.000 | Rp 3.162.000 |    21 |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+Masukkan nomor penerbangan yang dipesan (kosongkan untuk batal): XX-999
+! Nomor penerbangan 'XX-999' tidak ditemukan pada hasil pencarian.
+Masukkan nomor penerbangan yang dipesan (kosongkan untuk batal): GA-410
+
+--- Data Penumpang ---
+Nama lengkap penumpang 1: 12345
+! Nama tidak valid (2-60 karakter, hanya huruf, spasi, titik, apostrof, atau strip).
+Nama lengkap penumpang 1: Budi Santoso
+Nama lengkap penumpang 2: Ani Lestari
+Kontak (no. HP atau email): bukan-kontak
+! Kontak tidak valid. Gunakan nomor HP (mis. 081234567890) atau email.
+Kontak (no. HP atau email): 081234567890
+
++-----------------------------------------+
+| RINGKASAN PESANAN                       |
++-----------------------------------------+
+| Penerbangan : GA-410 - Garuda Indonesia |
+| Rute        : Jakarta -> Denpasar       |
+| Berangkat   : Rab, 07 Okt 2026 07:00    |
+| Penumpang   : Budi Santoso, Ani Lestari |
+| Total bayar : Rp 3.162.000              |
++-----------------------------------------+
+Konfirmasi pemesanan (y/n): y
+
+Pemesanan berhasil! Simpan nomor konfirmasi Anda: 262964
++--------------------------------------------------+
+| E-TIKET PENERBANGAN                              |
++--------------------------------------------------+
+| No. Konfirmasi : 262964                          |
+| Penerbangan    : GA-410 - Garuda Indonesia       |
+| Rute           : Jakarta (CGK) -> Denpasar (DPS) |
+| Berangkat      : Rab, 07 Okt 2026 07:00          |
+| Tiba           : 08:50                           |
+| Penumpang      : 2 orang                         |
+|   1. Budi Santoso                                |
+|   2. Ani Lestari                                 |
+| Kontak         : 081234567890                    |
+| Harga/orang    : Rp 1.581.000                    |
+| Total Bayar    : Rp 3.162.000                    |
+| Dipesan pada   : 04 Okt 2026 21:59               |
+| Status         : TERKONFIRMASI                   |
++--------------------------------------------------+
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> E. Pesan hotel
+Pilih menu (0-6): 4
+
+=== PEMESANAN HOTEL ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota (lokasi): denpasar
+Masukkan tanggal check-in (yyyy-MM-dd): 2026-10-07
+Masukkan tanggal check-out (yyyy-MM-dd): 2026-10-09
+Masukkan jumlah tamu (1-8): 3
+
+Hotel di Denpasar | Rab, 07 Okt 2026 s/d Jum, 09 Okt 2026 (2 malam) | 3 tamu | urut harga termurah
++-------+------------------------+---------+--------------+-----------+--------------+------------+
+| ID    | Nama Hotel             | Bintang | Harga/malam  | Kebutuhan | Total        | Sisa kamar |
++-------+------------------------+---------+--------------+-----------+--------------+------------+
+| H-203 | Sanur Backpacker House | **      |   Rp 380.000 | 2 kamar   | Rp 1.520.000 |         10 |
+| H-201 | Kuta Beach Resort      | ****    | Rp 1.650.000 | 1 kamar   | Rp 3.300.000 |         15 |
+| H-204 | Seminyak Boutique      | ****    | Rp 1.900.000 | 2 kamar   | Rp 7.600.000 |          2 |
+| H-202 | Ubud Garden Villa      | *****   | Rp 2.800.000 | 1 kamar   | Rp 5.600.000 |          6 |
++-------+------------------------+---------+--------------+-----------+--------------+------------+
+Masukkan ID hotel yang dipesan (kosongkan untuk batal): H-999
+! ID hotel 'H-999' tidak ditemukan pada hasil pencarian.
+Masukkan ID hotel yang dipesan (kosongkan untuk batal): H-201
+
+--- Data Tamu ---
+Nama lengkap tamu utama: Budi Santoso
+Kontak (no. HP atau email): budi@example.com
+
++---------------------------------------------------------------+
+| RINGKASAN PESANAN                                             |
++---------------------------------------------------------------+
+| Hotel       : Kuta Beach Resort (****)                        |
+| Lokasi      : Denpasar                                        |
+| Menginap    : Rab, 07 Okt 2026 s/d Jum, 09 Okt 2026 (2 malam) |
+| Tamu/Kamar  : 3 tamu / 1 kamar                                |
+| Total bayar : Rp 3.300.000                                    |
++---------------------------------------------------------------+
+Konfirmasi pemesanan (y/n): y
+
+Pemesanan berhasil! Simpan nomor konfirmasi Anda: 139258
++-------------------------------------------+
+| VOUCHER HOTEL                             |
++-------------------------------------------+
+| No. Konfirmasi : 139258                   |
+| Hotel          : Kuta Beach Resort (****) |
+| ID Hotel       : H-201                    |
+| Lokasi         : Denpasar                 |
+| Check-in       : Rab, 07 Okt 2026         |
+| Check-out      : Jum, 09 Okt 2026         |
+| Lama menginap  : 2 malam                  |
+| Tamu / Kamar   : 3 tamu / 1 kamar         |
+| Nama tamu      : Budi Santoso             |
+| Kontak         : budi@example.com         |
+| Harga/malam    : Rp 1.650.000             |
+| Total Bayar    : Rp 3.300.000             |
+| Dipesan pada   : 04 Okt 2026 21:59        |
+| Status         : TERKONFIRMASI            |
++-------------------------------------------+
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> F. Lihat semua pemesanan + detail
+Pilih menu (0-6): 6
+
+=== SEMUA PEMESANAN ===
++----------------+-------------+-----------------------------------------------------------------+--------------+-------------------+
+| No. Konfirmasi | Jenis       | Ringkasan                                                       | Total        | Dipesan           |
++----------------+-------------+-----------------------------------------------------------------+--------------+-------------------+
+| 262964         | Penerbangan | GA-410 Jakarta -> Denpasar, 2026-10-07, 2 penumpang             | Rp 3.162.000 | 04 Okt 2026 21:59 |
+| 139258         | Hotel       | Kuta Beach Resort (Denpasar), 2026-10-07 s/d 2026-10-09, 3 tamu | Rp 3.300.000 | 04 Okt 2026 21:59 |
++----------------+-------------+-----------------------------------------------------------------+--------------+-------------------+
+  Hotel: 1 pemesanan
+  Penerbangan: 1 pemesanan
+  Total pengeluaran: Rp 6.462.000
+
+Masukkan nomor konfirmasi untuk melihat detail (kosongkan untuk kembali): 262964
++--------------------------------------------------+
+| E-TIKET PENERBANGAN                              |
++--------------------------------------------------+
+| No. Konfirmasi : 262964                          |
+| Penerbangan    : GA-410 - Garuda Indonesia       |
+| Rute           : Jakarta (CGK) -> Denpasar (DPS) |
+| Berangkat      : Rab, 07 Okt 2026 07:00          |
+| Tiba           : 08:50                           |
+| Penumpang      : 2 orang                         |
+|   1. Budi Santoso                                |
+|   2. Ani Lestari                                 |
+| Kontak         : 081234567890                    |
+| Harga/orang    : Rp 1.581.000                    |
+| Total Bayar    : Rp 3.162.000                    |
+| Dipesan pada   : 04 Okt 2026 21:59               |
+| Status         : TERKONFIRMASI                   |
++--------------------------------------------------+
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> G1. Cek kursi GA-410 setelah dipesan
+Pilih menu (0-6): 1
+
+=== PENCARIAN PENERBANGAN ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota asal: jakarta
+Masukkan kota tujuan: bali
+Masukkan tanggal perjalanan (yyyy-MM-dd): 2026-10-07
+Masukkan jumlah penumpang (1-9): 1
+
+Penerbangan Jakarta (CGK) -> Denpasar (DPS) | Rab, 07 Okt 2026 | 1 penumpang | urut harga termurah
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| No. Penerbangan | Maskapai         | Berangkat | Tiba  | Durasi | Harga/orang  | Total        | Kursi |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| JT-650          | Lion Air         | 12:15     | 14:10 | 1j 55m | Rp 1.064.000 | Rp 1.064.000 |    32 |
+| SJ-262          | Sriwijaya Air    | 18:30     | 20:25 | 1j 55m | Rp 1.208.000 | Rp 1.208.000 |    43 |
+| GA-410          | Garuda Indonesia | 07:00     | 08:50 | 1j 50m | Rp 1.581.000 | Rp 1.581.000 |    19 |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+Pesan salah satu penerbangan ini sekarang (y/n): n
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> H1. Batalkan: nomor tidak ada
+Pilih menu (0-6): 5
+
+=== PEMBATALAN RESERVASI ===
+Masukkan nomor konfirmasi (6 digit): 999999
+! Reservasi dengan nomor konfirmasi 999999 tidak ditemukan.
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> H2. Batalkan: jawab n
+Pilih menu (0-6): 5
+
+=== PEMBATALAN RESERVASI ===
+Masukkan nomor konfirmasi (6 digit): 139258
++-------------------------------------------+
+| VOUCHER HOTEL                             |
++-------------------------------------------+
+| No. Konfirmasi : 139258                   |
+| Hotel          : Kuta Beach Resort (****) |
+| ID Hotel       : H-201                    |
+| Lokasi         : Denpasar                 |
+| Check-in       : Rab, 07 Okt 2026         |
+| Check-out      : Jum, 09 Okt 2026         |
+| Lama menginap  : 2 malam                  |
+| Tamu / Kamar   : 3 tamu / 1 kamar         |
+| Nama tamu      : Budi Santoso             |
+| Kontak         : budi@example.com         |
+| Harga/malam    : Rp 1.650.000             |
+| Total Bayar    : Rp 3.300.000             |
+| Dipesan pada   : 04 Okt 2026 21:59        |
+| Status         : TERKONFIRMASI            |
++-------------------------------------------+
+Yakin ingin membatalkan reservasi ini (y/n): n
+Pembatalan dibatalkan. Reservasi tetap aktif.
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> H3. Batalkan hotel: jawab y
+Pilih menu (0-6): 5
+
+=== PEMBATALAN RESERVASI ===
+Masukkan nomor konfirmasi (6 digit): 139258
++-------------------------------------------+
+| VOUCHER HOTEL                             |
++-------------------------------------------+
+| No. Konfirmasi : 139258                   |
+| Hotel          : Kuta Beach Resort (****) |
+| ID Hotel       : H-201                    |
+| Lokasi         : Denpasar                 |
+| Check-in       : Rab, 07 Okt 2026         |
+| Check-out      : Jum, 09 Okt 2026         |
+| Lama menginap  : 2 malam                  |
+| Tamu / Kamar   : 3 tamu / 1 kamar         |
+| Nama tamu      : Budi Santoso             |
+| Kontak         : budi@example.com         |
+| Harga/malam    : Rp 1.650.000             |
+| Total Bayar    : Rp 3.300.000             |
+| Dipesan pada   : 04 Okt 2026 21:59        |
+| Status         : TERKONFIRMASI            |
++-------------------------------------------+
+Yakin ingin membatalkan reservasi ini (y/n): y
+Reservasi HOTEL Kuta Beach Resort (No. 139258) berhasil dibatalkan. 1 kamar dilepas kembali ke Kuta Beach Resort.
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> H4. Batalkan penerbangan: jawab y
+Pilih menu (0-6): 5
+
+=== PEMBATALAN RESERVASI ===
+Masukkan nomor konfirmasi (6 digit): 262964
++--------------------------------------------------+
+| E-TIKET PENERBANGAN                              |
++--------------------------------------------------+
+| No. Konfirmasi : 262964                          |
+| Penerbangan    : GA-410 - Garuda Indonesia       |
+| Rute           : Jakarta (CGK) -> Denpasar (DPS) |
+| Berangkat      : Rab, 07 Okt 2026 07:00          |
+| Tiba           : 08:50                           |
+| Penumpang      : 2 orang                         |
+|   1. Budi Santoso                                |
+|   2. Ani Lestari                                 |
+| Kontak         : 081234567890                    |
+| Harga/orang    : Rp 1.581.000                    |
+| Total Bayar    : Rp 3.162.000                    |
+| Dipesan pada   : 04 Okt 2026 21:59               |
+| Status         : TERKONFIRMASI                   |
++--------------------------------------------------+
+Yakin ingin membatalkan reservasi ini (y/n): y
+Reservasi PENERBANGAN GA-410 (No. 262964) berhasil dibatalkan. 2 kursi dikembalikan ke penerbangan GA-410.
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> I. Daftar pemesanan setelah semua batal
+Pilih menu (0-6): 6
+
+=== SEMUA PEMESANAN ===
+Belum ada pemesanan.
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> G2. Cek kursi GA-410 setelah dibatalkan
+Pilih menu (0-6): 1
+
+=== PENCARIAN PENERBANGAN ===
+Kota tersedia: Jakarta (CGK), Surabaya (SUB), Denpasar (DPS), Yogyakarta (YIA), Bandung (BDO), Medan (KNO), Makassar (UPG)
+Masukkan kota asal: jakarta
+Masukkan kota tujuan: bali
+Masukkan tanggal perjalanan (yyyy-MM-dd): 2026-10-07
+Masukkan jumlah penumpang (1-9): 1
+
+Penerbangan Jakarta (CGK) -> Denpasar (DPS) | Rab, 07 Okt 2026 | 1 penumpang | urut harga termurah
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| No. Penerbangan | Maskapai         | Berangkat | Tiba  | Durasi | Harga/orang  | Total        | Kursi |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+| JT-650          | Lion Air         | 12:15     | 14:10 | 1j 55m | Rp 1.064.000 | Rp 1.064.000 |    32 |
+| SJ-262          | Sriwijaya Air    | 18:30     | 20:25 | 1j 55m | Rp 1.208.000 | Rp 1.208.000 |    43 |
+| GA-410          | Garuda Indonesia | 07:00     | 08:50 | 1j 50m | Rp 1.581.000 | Rp 1.581.000 |    21 |
++-----------------+------------------+-----------+-------+--------+--------------+--------------+-------+
+Pesan salah satu penerbangan ini sekarang (y/n): n
+
+----- MENU UTAMA -----
+ 1. Cari Penerbangan
+ 2. Cari Hotel
+ 3. Pesan Penerbangan
+ 4. Pesan Hotel
+ 5. Batalkan Reservasi
+ 6. Lihat Semua Pemesanan
+ 0. Keluar
+
+>>>>>> J. Keluar
+Pilih menu (0-6): 0
+
+Terima kasih telah gas bareng Gaskeun. Selamat jalan-jalan!

@@ -1,0 +1,7 @@
+# hasil compile
+out/
+
+# IDE
+.idea/
+.vscode/
+*.iml
