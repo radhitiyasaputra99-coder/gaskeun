@@ -1,0 +1,23 @@
+classDiagram
+    direction TB
+
+    class BookingException {
+        <<checked>>
+    }
+    class ReservationNotFoundException
+    class FlightNotFoundException
+    class HotelNotFoundException
+    class InsufficientSeatsException
+    class NoRoomsAvailableException
+
+    BookingException <|-- ReservationNotFoundException
+    BookingException <|-- FlightNotFoundException
+    BookingException <|-- HotelNotFoundException
+    BookingException <|-- InsufficientSeatsException
+    BookingException <|-- NoRoomsAvailableException
+
+    note for ReservationNotFoundException "nomor konfirmasi tidak ada"
+    note for FlightNotFoundException "nomor penerbangan tidak ada di hasil pencarian"
+    note for HotelNotFoundException "ID hotel tidak ada di hasil pencarian"
+    note for InsufficientSeatsException "kursi tidak cukup"
+    note for NoRoomsAvailableException "kamar penuh di tanggal yang dipilih"

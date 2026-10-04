@@ -1,0 +1,80 @@
+classDiagram
+    direction TB
+
+    class Reservation {
+        <<abstract, sealed>>
+        -int confirmationNumber
+        -String customerName
+        -String contact
+        -LocalDateTime bookedAt
+        +getTypeLabel()* String
+        +getTotalPrice()* long
+        +summary()* String
+        +display(PrintStream)*
+        +cancel()* String
+        +display()
+    }
+
+    class FlightReservation {
+        <<final>>
+        -Flight inventoryFlight
+        -Flight flight
+        -List~String~ passengerNames
+    }
+
+    class Bookable {
+        <<interface>>
+        +getId() String
+        +getName() String
+        +getPrice() long
+    }
+
+    class HotelReservation {
+        <<final>>
+        -Hotel hotel
+        +getRooms() int
+    }
+
+    class Flight {
+        -String flightNumber
+        -String airline
+        -String origin
+        -String destination
+        -LocalDate date
+        -LocalTime departureTime
+        -int durationMinutes
+        -long price
+        -int seatsAvailable
+        -int passengers
+        -int confirmationNumber
+        +hasSeats(int) boolean
+        +reserveSeats(int)
+        +releaseSeats(int)
+        +bookedCopy(int, int) Flight
+        +getTotalPrice() long
+    }
+
+    class Hotel {
+        -String hotelId
+        -String name
+        -String location
+        -int stars
+        -int totalRooms
+        -int maxGuestsPerRoom
+        -long pricePerNight
+        -LocalDate checkIn
+        -LocalDate checkOut
+        -int guests
+        -int confirmationNumber
+        +roomsNeededFor(int) int
+        +stayPrice(LocalDate, LocalDate, int) long
+        +bookedCopy(LocalDate, LocalDate, int, int) Hotel
+        +getTotalPrice() long
+    }
+
+    Reservation <|-- FlightReservation : extends
+    Reservation <|-- HotelReservation : extends
+    FlightReservation o-- Flight : inventoryFlight, flight
+    Bookable <|.. Flight : implements
+    Bookable <|.. Hotel : implements
+    HotelReservation o-- Hotel : hotel

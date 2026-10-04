@@ -74,6 +74,7 @@ src/travel
   data/SampleData.java    data contoh penerbangan dan hotel
   ui/                     ConsoleMenu (menu), ConsoleInput (baca input dengan Scanner)
   util/                   CityDirectory, ConsoleStyle, Formats
+docs/                     diagram UML (.mmd dan .png) dan transkrip hasil uji
 ```
 
 Logika program kami taruh di `TravelApp`, sedangkan menu dan input/output ada di `ConsoleMenu`.
@@ -81,41 +82,15 @@ Pemisahan ini bikin `TravelApp` bisa dites sendiri tanpa harus mengetik input sa
 
 ## Diagram UML
 
+Ada tiga diagram, semuanya tampil otomatis di GitHub. Versi gambar (PNG) tersedia di folder `docs/`
+untuk ditempel ke laporan: `uml-model.png`, `uml-arsitektur.png`, dan `uml-exception.png`.
+
+### 1. Diagram kelas (model)
+
 ```mermaid
 classDiagram
-    direction LR
-    class Bookable {
-        <<interface>>
-        +getId() String
-        +getName() String
-        +getPrice() long
-    }
-    class Flight {
-        -String flightNumber
-        -String airline
-        -String origin
-        -String destination
-        -LocalDate date
-        -long price
-        -int seatsAvailable
-        -int passengers
-        -int confirmationNumber
-        +reserveSeats(int)
-        +releaseSeats(int)
-        +bookedCopy(int,int) Flight
-    }
-    class Hotel {
-        -String hotelId
-        -String name
-        -String location
-        -LocalDate checkIn
-        -LocalDate checkOut
-        -int guests
-        -long pricePerNight
-        -int confirmationNumber
-        +roomsNeededFor(int) int
-        +bookedCopy(...) Hotel
-    }
+    direction TB
+
     class Reservation {
         <<abstract, sealed>>
         -int confirmationNumber
@@ -127,56 +102,196 @@ classDiagram
         +summary()* String
         +display(PrintStream)*
         +cancel()* String
+        +display()
     }
+
     class FlightReservation {
         <<final>>
+        -Flight inventoryFlight
         -Flight flight
         -List~String~ passengerNames
     }
+
+    class Bookable {
+        <<interface>>
+        +getId() String
+        +getName() String
+        +getPrice() long
+    }
+
     class HotelReservation {
         <<final>>
         -Hotel hotel
+        +getRooms() int
     }
+
+    class Flight {
+        -String flightNumber
+        -String airline
+        -String origin
+        -String destination
+        -LocalDate date
+        -LocalTime departureTime
+        -int durationMinutes
+        -long price
+        -int seatsAvailable
+        -int passengers
+        -int confirmationNumber
+        +hasSeats(int) boolean
+        +reserveSeats(int)
+        +releaseSeats(int)
+        +bookedCopy(int, int) Flight
+        +getTotalPrice() long
+    }
+
+    class Hotel {
+        -String hotelId
+        -String name
+        -String location
+        -int stars
+        -int totalRooms
+        -int maxGuestsPerRoom
+        -long pricePerNight
+        -LocalDate checkIn
+        -LocalDate checkOut
+        -int guests
+        -int confirmationNumber
+        +roomsNeededFor(int) int
+        +stayPrice(LocalDate, LocalDate, int) long
+        +bookedCopy(LocalDate, LocalDate, int, int) Hotel
+        +getTotalPrice() long
+    }
+
+    Reservation <|-- FlightReservation : extends
+    Reservation <|-- HotelReservation : extends
+    FlightReservation o-- Flight : inventoryFlight, flight
+    Bookable <|.. Flight : implements
+    Bookable <|.. Hotel : implements
+    HotelReservation o-- Hotel : hotel
+```
+
+### 2. Diagram arsitektur
+
+```mermaid
+classDiagram
+    direction TB
+
+    class Main {
+        <<final>>
+        +main(String[])$
+    }
+
+    class ConsoleMenu {
+        -TravelApp app
+        -ConsoleInput input
+        -PrintStream out
+        +run()
+    }
+
+    class ConsoleInput {
+        -Scanner scanner
+        -PrintStream out
+        +promptInt(String, int, int) int
+        +promptCity(String) String
+        +promptDate(String, LocalDate) LocalDate
+        +promptName(String) String
+        +promptContact(String) String
+        +confirm(String) boolean
+    }
+
     class TravelApp {
+        -Clock clock
         -List~Flight~ flights
         -List~Hotel~ hotels
         -List~Reservation~ reservations
-        +searchFlights(criteria) List~Flight~
-        +bookFlight(...) FlightReservation
-        +searchHotels(criteria) List~Hotel~
-        +bookHotel(...) HotelReservation
+        +searchFlights(FlightSearchCriteria) List~Flight~
+        +findFlight(String, FlightSearchCriteria) Flight
+        +bookFlight(Flight, List~String~, String) FlightReservation
+        +searchHotels(HotelSearchCriteria) List~Hotel~
+        +findHotel(String, HotelSearchCriteria) Hotel
+        +bookHotel(Hotel, HotelSearchCriteria, String, String) HotelReservation
+        +findReservation(int) Reservation
         +cancelReservation(int) String
+        +getReservations() List~Reservation~
     }
+
     class ConfirmationGenerator {
         <<final>>
-        +generate(Set) int
+        +generate(Set~Integer~)$ int
     }
-    class ConsoleMenu {
-        +run()
+
+    class SampleData {
+        <<final>>
+        +createApp(Clock)$ TravelApp
     }
+
+    class FlightSearchCriteria {
+        <<record>>
+        String origin
+        String destination
+        LocalDate date
+        int passengers
+    }
+
+    class HotelSearchCriteria {
+        <<record>>
+        String location
+        LocalDate checkIn
+        LocalDate checkOut
+        int guests
+    }
+
+    class Flight
+    class Hotel
+    class Reservation {
+        <<abstract, sealed>>
+    }
+
     class BookingException {
         <<checked>>
     }
 
-    Bookable <|.. Flight
-    Bookable <|.. Hotel
-    Reservation <|-- FlightReservation
-    Reservation <|-- HotelReservation
-    FlightReservation o-- Flight
-    HotelReservation o-- Hotel
+    Main ..> SampleData : membuat
+    Main ..> ConsoleMenu : menjalankan
+    SampleData ..> TravelApp : membuat
+    ConsoleMenu --> TravelApp : memanggil
+    ConsoleMenu --> ConsoleInput : membaca input
     TravelApp "1" o-- "*" Flight
     TravelApp "1" o-- "*" Hotel
     TravelApp "1" o-- "*" Reservation
-    TravelApp ..> ConfirmationGenerator
-    ConsoleMenu --> TravelApp
+    TravelApp ..> ConfirmationGenerator : nomor konfirmasi
+    TravelApp ..> FlightSearchCriteria
+    TravelApp ..> HotelSearchCriteria
+    TravelApp ..> BookingException : throws (lihat diagram exception)
+```
+
+### 3. Hierarki exception
+
+```mermaid
+classDiagram
+    direction TB
+
+    class BookingException {
+        <<checked>>
+    }
+    class ReservationNotFoundException
+    class FlightNotFoundException
+    class HotelNotFoundException
+    class InsufficientSeatsException
+    class NoRoomsAvailableException
+
     BookingException <|-- ReservationNotFoundException
     BookingException <|-- FlightNotFoundException
     BookingException <|-- HotelNotFoundException
     BookingException <|-- InsufficientSeatsException
     BookingException <|-- NoRoomsAvailableException
-```
 
-Diagram ini otomatis tampil di GitHub. Kalau butuh dalam bentuk gambar, tempel kodenya ke https://mermaid.live.
+    note for ReservationNotFoundException "nomor konfirmasi tidak ada"
+    note for FlightNotFoundException "nomor penerbangan tidak ada di hasil pencarian"
+    note for HotelNotFoundException "ID hotel tidak ada di hasil pencarian"
+    note for InsufficientSeatsException "kursi tidak cukup"
+    note for NoRoomsAvailableException "kamar penuh di tanggal yang dipilih"
+```
 
 ## Penerapan materi kuliah
 

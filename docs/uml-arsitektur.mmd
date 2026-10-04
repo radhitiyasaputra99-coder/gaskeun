@@ -1,0 +1,90 @@
+classDiagram
+    direction TB
+
+    class Main {
+        <<final>>
+        +main(String[])$
+    }
+
+    class ConsoleMenu {
+        -TravelApp app
+        -ConsoleInput input
+        -PrintStream out
+        +run()
+    }
+
+    class ConsoleInput {
+        -Scanner scanner
+        -PrintStream out
+        +promptInt(String, int, int) int
+        +promptCity(String) String
+        +promptDate(String, LocalDate) LocalDate
+        +promptName(String) String
+        +promptContact(String) String
+        +confirm(String) boolean
+    }
+
+    class TravelApp {
+        -Clock clock
+        -List~Flight~ flights
+        -List~Hotel~ hotels
+        -List~Reservation~ reservations
+        +searchFlights(FlightSearchCriteria) List~Flight~
+        +findFlight(String, FlightSearchCriteria) Flight
+        +bookFlight(Flight, List~String~, String) FlightReservation
+        +searchHotels(HotelSearchCriteria) List~Hotel~
+        +findHotel(String, HotelSearchCriteria) Hotel
+        +bookHotel(Hotel, HotelSearchCriteria, String, String) HotelReservation
+        +findReservation(int) Reservation
+        +cancelReservation(int) String
+        +getReservations() List~Reservation~
+    }
+
+    class ConfirmationGenerator {
+        <<final>>
+        +generate(Set~Integer~)$ int
+    }
+
+    class SampleData {
+        <<final>>
+        +createApp(Clock)$ TravelApp
+    }
+
+    class FlightSearchCriteria {
+        <<record>>
+        String origin
+        String destination
+        LocalDate date
+        int passengers
+    }
+
+    class HotelSearchCriteria {
+        <<record>>
+        String location
+        LocalDate checkIn
+        LocalDate checkOut
+        int guests
+    }
+
+    class Flight
+    class Hotel
+    class Reservation {
+        <<abstract, sealed>>
+    }
+
+    class BookingException {
+        <<checked>>
+    }
+
+    Main ..> SampleData : membuat
+    Main ..> ConsoleMenu : menjalankan
+    SampleData ..> TravelApp : membuat
+    ConsoleMenu --> TravelApp : memanggil
+    ConsoleMenu --> ConsoleInput : membaca input
+    TravelApp "1" o-- "*" Flight
+    TravelApp "1" o-- "*" Hotel
+    TravelApp "1" o-- "*" Reservation
+    TravelApp ..> ConfirmationGenerator : nomor konfirmasi
+    TravelApp ..> FlightSearchCriteria
+    TravelApp ..> HotelSearchCriteria
+    TravelApp ..> BookingException : throws (lihat diagram exception)
