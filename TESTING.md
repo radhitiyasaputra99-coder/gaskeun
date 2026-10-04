@@ -103,7 +103,7 @@ Kolom **Ketik** berisi urutan input, satu item per Enter.
 
 | Ketik | Hasil yang diharapkan |
 |---|---|
-| `0` | `Terima kasih telah gas bareng Gaskeun. Selamat jalan-jalan!` |
+| `0` | `Terima kasih telah menjelajah bareng NusaGo. Selamat jalan-jalan!` |
 
 ### Uji tambahan (sesi terpisah)
 

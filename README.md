@@ -1,10 +1,12 @@
-# Gaskeun
+# NusaGo
 
-Halo! Ini **Gaskeun**, aplikasi pemesanan perjalanan berbasis konsol yang saya buat untuk tugas proyek Java.
+> **Jelajahi Nusantara!**
+
+Halo! Ini **NusaGo**, aplikasi pemesanan perjalanan berbasis konsol yang kami buat sebagai tugas kelompok proyek Java.
 Idenya terinspirasi dari Traveloka dan Tiket.com: pengguna bisa mencari, memesan, dan membatalkan penerbangan maupun hotel,
 semuanya lewat terminal.
 
-Nama "Gaskeun" saya ambil dari kata gaul "gas" yang artinya "ayo berangkat", biar gampang diingat dan nyambung dengan tema traveling.
+Nama "NusaGo" kami ambil dari "Nusa" (Nusantara) dan "Go" (berangkat), kira-kira artinya "ayo jelajahi Nusantara", biar gampang diingat dan nyambung dengan tema traveling.
 
 ## Cara menjalankan
 
@@ -76,7 +78,7 @@ src/travel
 test/travel/TravelAppTests.java
 ```
 
-Logika program saya taruh di `TravelApp`, sedangkan menu dan input/output ada di `ConsoleMenu`.
+Logika program kami taruh di `TravelApp`, sedangkan menu dan input/output ada di `ConsoleMenu`.
 Pemisahan ini bikin `TravelApp` bisa dites sendiri tanpa harus mengetik input satu per satu.
 
 ## Diagram UML
@@ -201,7 +203,7 @@ Diagram ini otomatis tampil di GitHub. Kalau butuh dalam bentuk gambar, tempel k
   tidak saling menimpa data.
 - **Sisa kamar hotel dihitung dari reservasi yang masih aktif** di tanggal yang bertabrakan. Jadi ketika sebuah reservasi dibatalkan,
   kamarnya otomatis tersedia lagi tanpa perlu mengatur angka secara manual.
-- **Harga memakai `long`**, karena Rupiah tidak punya sen dan saya mau menghindari galat pembulatan dari `double`.
+- **Harga memakai `long`**, karena Rupiah tidak punya sen dan kami mau menghindari galat pembulatan dari `double`.
 - **Pembatalan memakai `instanceof`, bukan `switch` dengan pattern.** Fitur itu baru resmi di Java 21,
   sedangkan program ini di-compile untuk Java 17 supaya bisa jalan di lebih banyak laptop.
 

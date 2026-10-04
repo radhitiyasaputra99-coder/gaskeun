@@ -61,7 +61,7 @@ public class ConsoleMenu {
                 }
             }
             out.println();
-            out.println("Terima kasih telah gas bareng Gaskeun. Selamat jalan-jalan!");
+            out.println("Terima kasih telah menjelajah bareng NusaGo. Selamat jalan-jalan!");
         } catch (InputClosedException e) {
             out.println();
             out.println("Input ditutup. Program berhenti.");
@@ -75,7 +75,7 @@ public class ConsoleMenu {
     // =====================================================================
 
     private void printBanner() {
-        out.println(ConsoleStyle.box("GASKEUN - Gas ke mana aja!", List.of(
+        out.println(ConsoleStyle.box("NUSAGO - Jelajahi Nusantara!", List.of(
                 "Sistem pemesanan penerbangan & hotel berbasis konsol.",
                 "Data demo: jadwal penerbangan 30 hari ke depan mulai "
                         + app.today().format(DateFormats.ISO) + ".")));

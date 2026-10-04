@@ -1,5 +1,5 @@
 @echo off
-rem Compile dan jalankan Gaskeun. Butuh JDK 17 atau lebih baru.
+rem Compile dan jalankan NusaGo. Butuh JDK 17 atau lebih baru.
 setlocal
 cd /d "%~dp0"
 if not exist out\classes mkdir out\classes

@@ -1,5 +1,5 @@
 +------------------------------------------------------------------+
-| GASKEUN - Gas ke mana aja!                                       |
+| NUSAGO - Jelajahi Nusantara!                                     |
 +------------------------------------------------------------------+
 | Sistem pemesanan penerbangan & hotel berbasis konsol.            |
 | Data demo: jadwal penerbangan 30 hari ke depan mulai 2026-10-04. |
@@ -38,11 +38,11 @@ Nama lengkap penumpang 1: Nama lengkap penumpang 2: Kontak (no. HP atau email):
 | Total bayar : Rp 3.162.000              |
 +-----------------------------------------+
 Konfirmasi pemesanan (y/n): 
-Pemesanan berhasil! Simpan nomor konfirmasi Anda: 753540
+Pemesanan berhasil! Simpan nomor konfirmasi Anda: 209459
 +--------------------------------------------------+
 | E-TIKET PENERBANGAN                              |
 +--------------------------------------------------+
-| No. Konfirmasi : 753540                          |
+| No. Konfirmasi : 209459                          |
 | Penerbangan    : GA-410 - Garuda Indonesia       |
 | Rute           : Jakarta (CGK) -> Denpasar (DPS) |
 | Berangkat      : Rab, 07 Okt 2026 07:00          |
@@ -53,7 +53,7 @@ Pemesanan berhasil! Simpan nomor konfirmasi Anda: 753540
 | Kontak         : 081234567890                    |
 | Harga/orang    : Rp 1.581.000                    |
 | Total Bayar    : Rp 3.162.000                    |
-| Dipesan pada   : 04 Okt 2026 21:59               |
+| Dipesan pada   : 04 Okt 2026 22:17               |
 | Status         : TERKONFIRMASI                   |
 +--------------------------------------------------+
 
@@ -91,11 +91,11 @@ Nama lengkap tamu utama: Kontak (no. HP atau email):
 | Total bayar : Rp 3.300.000                                    |
 +---------------------------------------------------------------+
 Konfirmasi pemesanan (y/n): 
-Pemesanan berhasil! Simpan nomor konfirmasi Anda: 711423
+Pemesanan berhasil! Simpan nomor konfirmasi Anda: 245651
 +-------------------------------------------+
 | VOUCHER HOTEL                             |
 +-------------------------------------------+
-| No. Konfirmasi : 711423                   |
+| No. Konfirmasi : 245651                   |
 | Hotel          : Kuta Beach Resort (****) |
 | ID Hotel       : H-201                    |
 | Lokasi         : Denpasar                 |
@@ -107,7 +107,7 @@ Pemesanan berhasil! Simpan nomor konfirmasi Anda: 711423
 | Kontak         : budi@example.com         |
 | Harga/malam    : Rp 1.650.000             |
 | Total Bayar    : Rp 3.300.000             |
-| Dipesan pada   : 04 Okt 2026 21:59        |
+| Dipesan pada   : 04 Okt 2026 22:17        |
 | Status         : TERKONFIRMASI            |
 +-------------------------------------------+
 
@@ -124,8 +124,8 @@ Pilih menu (0-6):
 +----------------+-------------+-----------------------------------------------------------------+--------------+-------------------+
 | No. Konfirmasi | Jenis       | Ringkasan                                                       | Total        | Dipesan           |
 +----------------+-------------+-----------------------------------------------------------------+--------------+-------------------+
-| 753540         | Penerbangan | GA-410 Jakarta -> Denpasar, 2026-10-07, 2 penumpang             | Rp 3.162.000 | 04 Okt 2026 21:59 |
-| 711423         | Hotel       | Kuta Beach Resort (Denpasar), 2026-10-07 s/d 2026-10-09, 3 tamu | Rp 3.300.000 | 04 Okt 2026 21:59 |
+| 209459         | Penerbangan | GA-410 Jakarta -> Denpasar, 2026-10-07, 2 penumpang             | Rp 3.162.000 | 04 Okt 2026 22:17 |
+| 245651         | Hotel       | Kuta Beach Resort (Denpasar), 2026-10-07 s/d 2026-10-09, 3 tamu | Rp 3.300.000 | 04 Okt 2026 22:17 |
 +----------------+-------------+-----------------------------------------------------------------+--------------+-------------------+
   Hotel: 1 pemesanan
   Penerbangan: 1 pemesanan
@@ -141,4 +141,4 @@ Masukkan nomor konfirmasi untuk melihat detail (kosongkan untuk kembali):
  6. Lihat Semua Pemesanan
  0. Keluar
 Pilih menu (0-6): 
-Terima kasih telah gas bareng Gaskeun. Selamat jalan-jalan!
+Terima kasih telah menjelajah bareng NusaGo. Selamat jalan-jalan!
