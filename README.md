@@ -1,22 +1,25 @@
-# Gaskeun - Sistem Pemesanan Perjalanan
+# Gaskeun
 
-Tugas proyek Java: aplikasi pemesanan perjalanan berbasis konsol, mirip Traveloka / Tiket.com.
-Pengguna bisa mencari, memesan, dan membatalkan penerbangan dan hotel.
+Halo! Ini **Gaskeun**, aplikasi pemesanan perjalanan berbasis konsol yang saya buat untuk tugas proyek Java.
+Idenya terinspirasi dari Traveloka dan Tiket.com: pengguna bisa mencari, memesan, dan membatalkan penerbangan maupun hotel,
+semuanya lewat terminal.
+
+Nama "Gaskeun" saya ambil dari kata gaul "gas" yang artinya "ayo berangkat", biar gampang diingat dan nyambung dengan tema traveling.
 
 ## Cara menjalankan
 
-Butuh JDK 17 atau lebih baru. Cek dengan `java -version`.
+Yang dibutuhkan hanya **JDK 17 atau lebih baru**. Cek dulu dengan `java -version`.
 
-Di Windows, buka terminal di folder project lalu jalankan:
+Buka terminal di folder project, lalu jalankan:
 
 ```
 run.bat
 ```
 
-Kalau pakai PowerShell tulis `.\run.bat`. File ini akan compile lalu langsung menjalankan programnya.
-Untuk menjalankan test: `test.bat`.
+Kalau memakai PowerShell, tulis `.\run.bat`. File ini akan meng-compile kode sekaligus menjalankan programnya.
+Untuk menjalankan test otomatis, pakai `test.bat`.
 
-Cara manual:
+Kalau mau compile manual lewat Command Prompt:
 
 ```
 mkdir out\classes
@@ -25,10 +28,11 @@ javac --release 17 -encoding UTF-8 -d out\classes @out\sources.txt
 java -cp out\classes travel.Main
 ```
 
-(Perintah ini untuk Command Prompt / `cmd`. Di Linux atau macOS ganti baris `dir` dengan
-`find src -name '*.java' > out/sources.txt` dan pakai `/` pada path.)
+(Di Linux atau macOS, ganti baris `dir` dengan `find src -name '*.java' > out/sources.txt` dan pakai `/` untuk path.)
 
-## Menu
+## Yang bisa dilakukan
+
+Setelah program jalan, ada menu seperti ini:
 
 ```
 1. Cari Penerbangan
@@ -40,20 +44,22 @@ java -cp out\classes travel.Main
 0. Keluar
 ```
 
-- **Cari penerbangan**: isi kota asal, kota tujuan, tanggal (`yyyy-MM-dd`), dan jumlah penumpang. Hasil ditampilkan
-  dalam tabel, diurutkan dari harga termurah. Kalau kosong muncul pesan "tidak ada penerbangan tersedia".
-- **Cari hotel**: isi kota, tanggal check-in, check-out, dan jumlah tamu.
+- **Cari penerbangan**: masukkan kota asal, kota tujuan, tanggal (format `yyyy-MM-dd`), dan jumlah penumpang.
+  Hasilnya tampil sebagai tabel, diurutkan dari harga termurah. Kalau tidak ada yang cocok, muncul pesan
+  "tidak ada penerbangan tersedia" beserta saran tanggal lain.
+- **Cari hotel**: masukkan kota, tanggal check-in, tanggal check-out, dan jumlah tamu.
 - **Pesan**: pilih nomor penerbangan atau ID hotel dari hasil pencarian, isi data pemesan, lalu konfirmasi.
-  Setelah berhasil akan keluar nomor konfirmasi 6 digit acak.
-- **Batalkan**: masukkan nomor konfirmasi, kursi atau kamar dikembalikan.
-- **Lihat semua pemesanan**: menampilkan semua reservasi beserta total pengeluaran.
+  Kalau berhasil, pengguna mendapat nomor konfirmasi 6 digit acak.
+- **Batalkan**: masukkan nomor konfirmasi, lalu kursi atau kamar yang tadi dipesan dikembalikan.
+- **Lihat semua pemesanan**: menampilkan seluruh reservasi beserta total pengeluarannya.
 
-Kota yang tersedia: Jakarta, Surabaya, Denpasar (bisa ditulis `bali`), Yogyakarta (bisa ditulis `jogja`), Bandung, Medan, Makassar.
-Data penerbangan dibuat otomatis untuk 30 hari ke depan dari hari ini, jadi tanggal di luar itu tidak ada hasilnya.
-Reservasi hanya tersimpan selama program berjalan (belum disimpan ke file).
+Beberapa hal yang perlu diketahui saat mencoba:
 
-Input yang salah (huruf di kolom angka, format tanggal salah, kota tidak dikenal, nomor penerbangan tidak ada, dan sebagainya)
-ditangani dengan try-catch dan pengguna diminta mengisi ulang, jadi program tidak berhenti.
+- Kota yang tersedia: Jakarta, Surabaya, Denpasar (boleh ditulis `bali`), Yogyakarta (boleh ditulis `jogja`), Bandung, Medan, dan Makassar.
+- Data penerbangan dibuat otomatis untuk 30 hari ke depan dari hari ini. Tanggal di luar rentang itu tidak akan ada hasilnya.
+- Reservasi hanya tersimpan selama program berjalan, belum disimpan ke file.
+- Kalau input salah (huruf di kolom angka, format tanggal keliru, kota tidak dikenal, nomor penerbangan tidak ada, dan sebagainya),
+  program tidak berhenti. Kesalahannya ditangkap dengan try-catch, lalu pengguna diminta mengisi ulang.
 
 ## Struktur project
 
@@ -70,8 +76,8 @@ src/travel
 test/travel/TravelAppTests.java
 ```
 
-Logika program ada di `TravelApp`, sedangkan menu dan input/output ada di `ConsoleMenu`. Dipisah supaya
-`TravelApp` bisa dites tanpa harus mengetik input manual.
+Logika program saya taruh di `TravelApp`, sedangkan menu dan input/output ada di `ConsoleMenu`.
+Pemisahan ini bikin `TravelApp` bisa dites sendiri tanpa harus mengetik input satu per satu.
 
 ## Diagram UML
 
@@ -170,36 +176,36 @@ classDiagram
     BookingException <|-- NoRoomsAvailableException
 ```
 
-Diagram ini otomatis tampil di GitHub. Kalau butuh gambar, tempel kodenya ke https://mermaid.live.
+Diagram ini otomatis tampil di GitHub. Kalau butuh dalam bentuk gambar, tempel kodenya ke https://mermaid.live.
 
-## Materi yang dipakai
+## Penerapan materi kuliah
 
 | Materi | Dipakai di |
 |---|---|
 | Input/Output | `ConsoleInput` (Scanner) dan `System.out` di `ConsoleMenu` |
 | Kelas, objek, method | `Flight`, `Hotel`, `TravelApp`, method `toString()` |
-| Seleksi dan perulangan | `while` dan `switch` di `ConsoleMenu.run()`, perulangan input di `ConsoleInput` |
+| Seleksi dan perulangan | `while` dan `switch` di `ConsoleMenu.run()`, serta perulangan input di `ConsoleInput` |
 | Array dan koleksi | `ArrayList<Flight>`, `ArrayList<Hotel>`, `ArrayList<Reservation>` di `TravelApp` |
 | Pewarisan dan polimorfisme | `Reservation` diturunkan ke `FlightReservation` dan `HotelReservation`, method `display()` dan `cancel()` di-override |
 | Enkapsulasi | semua field `private` dengan getter dan setter |
 | Kelas abstrak dan interface | `abstract class Reservation` dan `interface Bookable` |
-| Penanganan exception | custom exception (misalnya `ReservationNotFoundException`) dan try-catch di input |
+| Penanganan exception | custom exception (misalnya `ReservationNotFoundException`) dan try-catch pada input |
 | Pattern matching | `instanceof FlightReservation fr` di `TravelApp.cancelReservation` |
 | Lambda dan stream | `stream().filter(...).sorted(...)` di `searchFlights` dan `searchHotels` |
-| Sealed dan final | `sealed abstract class Reservation permits ...`, kelas `final` pada `FlightReservation`, `HotelReservation`, `ConfirmationGenerator` |
+| Sealed dan final | `sealed abstract class Reservation permits ...`, serta kelas `final` pada `FlightReservation`, `HotelReservation`, dan `ConfirmationGenerator` |
 
-## Catatan desain
+## Beberapa keputusan desain
 
-- Class `Flight` dan `Hotel` dipakai dua kali: sebagai data di katalog, dan sebagai salinan saat dipesan
-  (method `bookedCopy`) yang menyimpan jumlah penumpang dan nomor konfirmasi. Ini supaya beberapa pesanan di penerbangan
-  yang sama tidak saling menimpa data.
-- Sisa kamar hotel dihitung dari reservasi yang masih aktif di tanggal yang bertabrakan, jadi saat reservasi dibatalkan
-  kamarnya otomatis tersedia lagi.
-- Harga memakai `long` karena Rupiah tidak punya sen.
-- Pembatalan memakai `instanceof` karena `switch` dengan pattern baru resmi di Java 21, sedangkan program ini
-  dicompile untuk Java 17.
+- **`Flight` dan `Hotel` punya dua peran.** Satu sebagai data di katalog, satu lagi sebagai salinan saat dipesan
+  (method `bookedCopy`) yang menyimpan jumlah penumpang dan nomor konfirmasi. Dengan begini beberapa pesanan di penerbangan yang sama
+  tidak saling menimpa data.
+- **Sisa kamar hotel dihitung dari reservasi yang masih aktif** di tanggal yang bertabrakan. Jadi ketika sebuah reservasi dibatalkan,
+  kamarnya otomatis tersedia lagi tanpa perlu mengatur angka secara manual.
+- **Harga memakai `long`**, karena Rupiah tidak punya sen dan saya mau menghindari galat pembulatan dari `double`.
+- **Pembatalan memakai `instanceof`, bukan `switch` dengan pattern.** Fitur itu baru resmi di Java 21,
+  sedangkan program ini di-compile untuk Java 17 supaya bisa jalan di lebih banyak laptop.
 
 ## Pengujian
 
 Ada 29 test otomatis (`test.bat`) dan skenario uji manual lengkap di [TESTING.md](TESTING.md).
-Hasil jalannya program ada di folder `docs/`.
+Hasil program saat dijalankan ada di folder `docs/`.
