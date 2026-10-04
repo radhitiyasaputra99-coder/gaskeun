@@ -6,13 +6,6 @@ import java.time.temporal.ChronoUnit;
 import travel.util.CurrencyFormat;
 import travel.util.DateFormats;
 
-/**
- * Entitas hotel. Semua field private dan diakses lewat getter/setter (enkapsulasi).
- *
- * <p>Seperti {@link Flight}, kelas ini punya dua peran: objek inventori di katalog
- * (field menginap bernilai null/0) dan snapshot pesanan hasil {@link #bookedCopy}
- * yang menyimpan tanggal menginap, jumlah tamu, dan nomor konfirmasi.
- */
 public class Hotel implements Bookable {
 
     private final String hotelId;
@@ -24,7 +17,6 @@ public class Hotel implements Bookable {
 
     private long pricePerNight;
 
-    // Data menginap: hanya terisi pada snapshot pesanan.
     private LocalDate checkIn;
     private LocalDate checkOut;
     private int guests;
@@ -41,24 +33,18 @@ public class Hotel implements Bookable {
         this.pricePerNight = requireNonNegative(pricePerNight);
     }
 
-    // ---------- perilaku bisnis ----------
-
-    /** Jumlah kamar yang dibutuhkan untuk sejumlah tamu (pembulatan ke atas). */
     public int roomsNeededFor(int guestCount) {
         return (guestCount + maxGuestsPerRoom - 1) / maxGuestsPerRoom;
     }
 
-    /** Jumlah malam antara check-in dan check-out. */
     public static int nightsBetween(LocalDate checkIn, LocalDate checkOut) {
         return (int) ChronoUnit.DAYS.between(checkIn, checkOut);
     }
 
-    /** Total biaya menginap = malam x kamar x harga per malam. */
     public long stayPrice(LocalDate checkIn, LocalDate checkOut, int guestCount) {
         return pricePerNight * nightsBetween(checkIn, checkOut) * roomsNeededFor(guestCount);
     }
 
-    /** Membuat snapshot pesanan dari hotel ini. */
     public Hotel bookedCopy(LocalDate checkIn, LocalDate checkOut, int guests, int confirmationNumber) {
         Hotel copy = new Hotel(hotelId, name, location, stars, pricePerNight, totalRooms, maxGuestsPerRoom);
         copy.setCheckIn(checkIn);
@@ -80,8 +66,6 @@ public class Hotel implements Bookable {
         return "*".repeat(stars);
     }
 
-    // ---------- Bookable ----------
-
     @Override
     public String getId() {
         return hotelId;
@@ -96,8 +80,6 @@ public class Hotel implements Bookable {
     public long getPrice() {
         return pricePerNight;
     }
-
-    // ---------- getter / setter ----------
 
     public String getHotelId() {
         return hotelId;

@@ -1,6 +1,5 @@
 package travel.exception;
 
-/** Dilempar saat jumlah penumpang melebihi kursi yang tersisa di penerbangan. */
 public class InsufficientSeatsException extends BookingException {
 
     private static final long serialVersionUID = 1L;

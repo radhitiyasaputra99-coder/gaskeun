@@ -26,20 +26,11 @@ import travel.model.HotelReservation;
 import travel.model.HotelSearchCriteria;
 import travel.model.Reservation;
 
-/**
- * Logika inti aplikasi pemesanan. Kelas ini tidak melakukan I/O konsol sama sekali,
- * sehingga bisa diuji langsung dan dipakai ulang oleh antarmuka lain (mis. web/GUI).
- *
- * <p>Menyimpan tiga koleksi: katalog penerbangan, katalog hotel, dan reservasi aktif.
- * {@link Clock} disuntik lewat constructor supaya logika tanggal deterministik saat diuji.
- */
 public class TravelApp {
 
-    /** Urutan default hasil pencarian penerbangan: termurah dulu, lalu paling pagi. */
     public static final Comparator<Flight> CHEAPEST_FIRST =
             Comparator.comparingLong(Flight::getPrice).thenComparing(Flight::getDepartureTime);
 
-    /** Urutan alternatif: jam berangkat paling awal dulu. */
     public static final Comparator<Flight> EARLIEST_FIRST =
             Comparator.comparing(Flight::getDepartureTime).thenComparingLong(Flight::getPrice);
 
@@ -58,44 +49,37 @@ public class TravelApp {
         return LocalDate.now(clock);
     }
 
-    // =====================================================================
-    // Penerbangan
-    // =====================================================================
-
     public List<Flight> searchFlights(FlightSearchCriteria criteria) {
         return searchFlights(criteria, CHEAPEST_FIRST);
     }
 
-    /**
-     * Mencari penerbangan yang cocok dengan rute, tanggal, dan kursi yang cukup.
-     * Penyaringan memakai stream + lambda.
-     */
     public List<Flight> searchFlights(FlightSearchCriteria criteria, Comparator<Flight> order) {
         requireNotInPast(criteria.date());
+        LocalDateTime now = LocalDateTime.now(clock);
         return flights.stream()
                 .filter(f -> f.getOrigin().equalsIgnoreCase(criteria.origin()))
                 .filter(f -> f.getDestination().equalsIgnoreCase(criteria.destination()))
                 .filter(f -> f.getDate().equals(criteria.date()))
+                .filter(f -> f.getDepartureDateTime().isAfter(now))
                 .filter(f -> f.hasSeats(criteria.passengers()))
                 .sorted(order)
                 .toList();
     }
 
-    /** Saran tanggal lain (maks. 5) yang masih punya penerbangan untuk rute dan jumlah penumpang yang sama. */
     public List<LocalDate> alternativeFlightDates(FlightSearchCriteria criteria) {
+        LocalDateTime now = LocalDateTime.now(clock);
         return flights.stream()
                 .filter(f -> f.getOrigin().equalsIgnoreCase(criteria.origin()))
                 .filter(f -> f.getDestination().equalsIgnoreCase(criteria.destination()))
+                .filter(f -> f.getDepartureDateTime().isAfter(now))
                 .filter(f -> f.hasSeats(criteria.passengers()))
                 .map(Flight::getDate)
-                .filter(d -> !d.isBefore(today()))
                 .distinct()
                 .sorted()
                 .limit(5)
                 .toList();
     }
 
-    /** Mencari penerbangan berdasarkan nomor di antara hasil pencarian. */
     public Flight findFlight(String flightNumber, FlightSearchCriteria criteria) throws FlightNotFoundException {
         String wanted = flightNumber.trim();
         return searchFlights(criteria).stream()
@@ -104,14 +88,13 @@ public class TravelApp {
                 .orElseThrow(() -> new FlightNotFoundException(wanted));
     }
 
-    /** Membuat reservasi penerbangan: kursi dikurangi, nomor konfirmasi dibuat, reservasi disimpan. */
     public FlightReservation bookFlight(Flight flight, List<String> passengerNames, String contact)
             throws BookingException {
         Objects.requireNonNull(flight, "flight");
         if (passengerNames == null || passengerNames.isEmpty()) {
             throw new IllegalArgumentException("Minimal harus ada satu penumpang.");
         }
-        flight.reserveSeats(passengerNames.size()); // dilempar InsufficientSeatsException bila kurang
+        flight.reserveSeats(passengerNames.size());
 
         int confirmation = ConfirmationGenerator.generate(usedConfirmationNumbers());
         Flight snapshot = flight.bookedCopy(passengerNames.size(), confirmation);
@@ -121,14 +104,6 @@ public class TravelApp {
         return reservation;
     }
 
-    // =====================================================================
-    // Hotel
-    // =====================================================================
-
-    /**
-     * Mencari hotel di kota yang diminta dengan kamar kosong cukup di seluruh rentang tanggal.
-     * Diurutkan dari harga termurah.
-     */
     public List<Hotel> searchHotels(HotelSearchCriteria criteria) {
         requireNotInPast(criteria.checkIn());
         return hotels.stream()
@@ -139,11 +114,6 @@ public class TravelApp {
                 .toList();
     }
 
-    /**
-     * Sisa kamar sebuah hotel pada rentang [checkIn, checkOut). Dua rentang bertabrakan bila
-     * keduanya saling tumpang tindih; check-out pada hari yang sama dengan check-in tamu lain
-     * dianggap tidak bertabrakan.
-     */
     public int availableRooms(Hotel hotel, LocalDate checkIn, LocalDate checkOut) {
         int occupied = reservations.stream()
                 .filter(HotelReservation.class::isInstance)
@@ -156,7 +126,6 @@ public class TravelApp {
         return hotel.getTotalRooms() - occupied;
     }
 
-    /** Mencari hotel berdasarkan ID di antara hasil pencarian. */
     public Hotel findHotel(String hotelId, HotelSearchCriteria criteria) throws HotelNotFoundException {
         String wanted = hotelId.trim();
         return searchHotels(criteria).stream()
@@ -168,7 +137,6 @@ public class TravelApp {
     public HotelReservation bookHotel(Hotel hotel, HotelSearchCriteria criteria, String guestName, String contact)
             throws BookingException {
         Objects.requireNonNull(hotel, "hotel");
-        // Cek ulang ketersediaan tepat sebelum menyimpan (data bisa berubah sejak pencarian).
         if (availableRooms(hotel, criteria.checkIn(), criteria.checkOut()) < hotel.roomsNeededFor(criteria.guests())) {
             throw new NoRoomsAvailableException(hotel.getName());
         }
@@ -180,10 +148,6 @@ public class TravelApp {
         return reservation;
     }
 
-    // =====================================================================
-    // Reservasi
-    // =====================================================================
-
     public Reservation findReservation(int confirmationNumber) throws ReservationNotFoundException {
         for (Reservation reservation : reservations) {
             if (reservation.getConfirmationNumber() == confirmationNumber) {
@@ -193,11 +157,6 @@ public class TravelApp {
         throw new ReservationNotFoundException(confirmationNumber);
     }
 
-    /**
-     * Membatalkan reservasi berdasarkan nomor konfirmasi. Reservasi dihapus dari daftar, sumber
-     * dayanya dilepas lewat {@link Reservation#cancel()} (polimorfik), lalu pesan sukses dibuat
-     * dengan pattern matching {@code instanceof}.
-     */
     public String cancelReservation(int confirmationNumber) throws ReservationNotFoundException {
         Reservation target = findReservation(confirmationNumber);
         reservations.remove(target);
@@ -210,18 +169,15 @@ public class TravelApp {
             return "Reservasi HOTEL " + hr.getHotel().getName()
                     + " (No. " + confirmationNumber + ") berhasil dibatalkan. " + releaseNote;
         }
-        // Tidak tercapai: Reservation sealed dan hanya punya dua subclass di atas.
         throw new IllegalStateException("Tipe reservasi tidak dikenal: " + target.getClass());
     }
 
-    /** Semua reservasi aktif, urut dari yang paling awal dipesan. */
     public List<Reservation> getReservations() {
         return reservations.stream()
                 .sorted(Comparator.comparing(Reservation::getBookedAt))
                 .toList();
     }
 
-    /** Jumlah reservasi per jenis (Penerbangan/Hotel). */
     public Map<String, Long> countByType() {
         return reservations.stream()
                 .collect(Collectors.groupingBy(Reservation::getTypeLabel, TreeMap::new, Collectors.counting()));
@@ -230,10 +186,6 @@ public class TravelApp {
     public long totalSpent() {
         return reservations.stream().mapToLong(Reservation::getTotalPrice).sum();
     }
-
-    // =====================================================================
-    // Helper
-    // =====================================================================
 
     private Set<Integer> usedConfirmationNumbers() {
         Set<Integer> used = new HashSet<>();

@@ -9,13 +9,10 @@ import travel.util.CityDirectory;
 import travel.util.CurrencyFormat;
 import travel.util.DateFormats;
 
-/** Reservasi penerbangan. Final: tidak boleh diwarisi lagi. */
 public final class FlightReservation extends Reservation {
 
-    /** Penerbangan di katalog, dipakai untuk mengembalikan kursi saat dibatalkan. */
     private final Flight inventoryFlight;
 
-    /** Snapshot penerbangan saat dipesan (berisi jumlah penumpang dan nomor konfirmasi). */
     private final Flight flight;
 
     private final List<String> passengerNames;

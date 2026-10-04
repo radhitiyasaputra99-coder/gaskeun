@@ -1,6 +1,5 @@
 package travel.exception;
 
-/** Dilempar saat kamar hotel sudah habis pada rentang tanggal yang diminta. */
 public class NoRoomsAvailableException extends BookingException {
 
     private static final long serialVersionUID = 1L;

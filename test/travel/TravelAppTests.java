@@ -34,12 +34,6 @@ import travel.ui.ConsoleMenu;
 import travel.util.CityDirectory;
 import travel.util.CurrencyFormat;
 
-/**
- * Test suite tanpa dependensi eksternal (tidak perlu JUnit/Maven).
- * Jalankan lewat test.bat atau lihat README. Exit code 1 bila ada test gagal.
- *
- * <p>Waktu dikunci dengan Clock tetap (2026-10-04) agar hasil selalu sama.
- */
 public final class TravelAppTests {
 
     private static final Clock CLOCK = Clock.fixed(Instant.parse("2026-10-04T03:00:00Z"), ZoneId.of("Asia/Jakarta"));
@@ -115,6 +109,12 @@ public final class TravelAppTests {
             assertTrue(nine.stream().allMatch(f -> f.getSeatsAvailable() >= 9), "semua hasil punya >= 9 kursi");
             assertTrue(nine.size() <= one.size(), "syarat penumpang lebih besar tidak menambah hasil");
         });
+        test("Penerbangan yang sudah berangkat hari ini tidak ditampilkan", () -> {
+            List<Flight> today = app().searchFlights(new FlightSearchCriteria("Jakarta", "Denpasar", TODAY, 1));
+            List<String> numbers = today.stream().map(Flight::getFlightNumber).toList();
+            assertTrue(!numbers.contains("GA-410"), "GA-410 (07:00) harus disembunyikan: " + numbers);
+            assertTrue(numbers.contains("JT-650") && numbers.contains("SJ-262"), "penerbangan siang/malam tetap tampil: " + numbers);
+        });
         test("Pencarian menolak tanggal di masa lalu", () ->
                 assertThrows(IllegalArgumentException.class, () ->
                         app().searchFlights(new FlightSearchCriteria("Jakarta", "Denpasar", TODAY.minusDays(1), 1))));
@@ -176,13 +176,12 @@ public final class TravelAppTests {
         });
         test("Kamar yang habis pada tanggal tumpang tindih tidak muncul; tanggal bersebelahan tetap tersedia", () -> {
             TravelApp app = app();
-            Hotel seminyak = app.findHotel("H-204", stay(2)); // hanya 2 kamar
+            Hotel seminyak = app.findHotel("H-204", stay(2));
             app.bookHotel(seminyak, stay(2), "Budi Santoso", PHONE);
             app.bookHotel(seminyak, stay(2), "Ani Lestari", PHONE);
             assertTrue(app.searchHotels(stay(2)).stream().noneMatch(h -> h.getHotelId().equals("H-204")),
                     "H-204 harus habis");
             assertThrows(NoRoomsAvailableException.class, () -> app.bookHotel(seminyak, stay(2), "Citra", PHONE));
-            // check-in tepat di hari check-out tamu lain => tidak bentrok
             HotelSearchCriteria after = new HotelSearchCriteria("Denpasar", TRIP.plusDays(2), TRIP.plusDays(4), 2);
             assertTrue(app.searchHotels(after).stream().anyMatch(h -> h.getHotelId().equals("H-204")),
                     "H-204 tersedia lagi setelah check-out");
@@ -239,11 +238,11 @@ public final class TravelAppTests {
             TravelApp app = app();
             String out = cli(app,
                     "3", "jakarta", "denpasar", TRIP.toString(), "2",
-                    "XX-999",                    // nomor penerbangan tidak ada
+                    "XX-999",
                     "GA-410",
-                    "12345", "Budi Santoso",     // nama 1: angka ditolak
+                    "12345", "Budi Santoso",
                     "Ani Lestari",
-                    "bukan-kontak", PHONE,       // kontak invalid ditolak
+                    "bukan-kontak", PHONE,
                     "y",
                     "6", "", "0");
             assertTrue(out.contains("tidak ditemukan pada hasil pencarian"), "ID salah");
@@ -292,8 +291,6 @@ public final class TravelAppTests {
         }
     }
 
-    // ---------- fixture & helper ----------
-
     private static TravelApp app() {
         return SampleData.createApp(CLOCK);
     }
@@ -306,7 +303,6 @@ public final class TravelAppTests {
         return new HotelSearchCriteria("Denpasar", TRIP, TRIP.plusDays(2), guests);
     }
 
-    /** Menjalankan ConsoleMenu dengan skrip input dan mengembalikan seluruh outputnya. */
     private static String cli(TravelApp app, String... inputLines) {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(buffer, true, StandardCharsets.UTF_8);

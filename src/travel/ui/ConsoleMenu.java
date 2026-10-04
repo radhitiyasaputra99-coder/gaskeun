@@ -25,10 +25,6 @@ import travel.util.ConsoleStyle;
 import travel.util.CurrencyFormat;
 import travel.util.DateFormats;
 
-/**
- * Antarmuka konsol: menampilkan menu, membaca pilihan, dan memanggil {@link TravelApp}.
- * Semua aturan bisnis ada di TravelApp; kelas ini hanya mengurus tampilan dan alur dialog.
- */
 public class ConsoleMenu {
 
     private final TravelApp app;
@@ -41,7 +37,6 @@ public class ConsoleMenu {
         this.input = new ConsoleInput(in, out);
     }
 
-    /** Loop utama menu sampai pengguna memilih keluar atau input ditutup. */
     public void run() {
         printBanner();
         try {
@@ -70,10 +65,6 @@ public class ConsoleMenu {
         }
     }
 
-    // =====================================================================
-    // Tampilan menu
-    // =====================================================================
-
     private void printBanner() {
         out.println(ConsoleStyle.box("NUSAGO - Jelajahi Nusantara!", List.of(
                 "Sistem pemesanan penerbangan & hotel berbasis konsol.",
@@ -93,14 +84,6 @@ public class ConsoleMenu {
         out.println(" 0. Keluar");
     }
 
-    // =====================================================================
-    // Alur penerbangan
-    // =====================================================================
-
-    /**
-     * Alur pencarian penerbangan. Bila {@code bookNow} true (menu 3), pengguna langsung diarahkan
-     * memilih penerbangan; bila false (menu 1), pengguna ditanya dulu setelah melihat hasil.
-     */
     private void flightFlow(boolean bookNow) {
         out.println();
         out.println("=== " + (bookNow ? "PEMESANAN" : "PENCARIAN") + " PENERBANGAN ===");
@@ -218,10 +201,6 @@ public class ConsoleMenu {
         }
     }
 
-    // =====================================================================
-    // Alur hotel
-    // =====================================================================
-
     private void hotelFlow(boolean bookNow) {
         out.println();
         out.println("=== " + (bookNow ? "PEMESANAN" : "PENCARIAN") + " HOTEL ===");
@@ -329,17 +308,13 @@ public class ConsoleMenu {
         }
     }
 
-    // =====================================================================
-    // Pembatalan & daftar pemesanan
-    // =====================================================================
-
     private void cancelFlow() {
         out.println();
         out.println("=== PEMBATALAN RESERVASI ===");
         int number = input.promptInt("Masukkan nomor konfirmasi (6 digit)", 100_000, 999_999);
         try {
             Reservation reservation = app.findReservation(number);
-            reservation.display(out); // polimorfik: tiket atau voucher sesuai jenisnya
+            reservation.display(out);
             if (input.confirm("Yakin ingin membatalkan reservasi ini")) {
                 out.println(app.cancelReservation(number));
             } else {

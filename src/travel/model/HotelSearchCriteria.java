@@ -3,7 +3,6 @@ package travel.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-/** Kriteria pencarian hotel (kota, tanggal check-in/out, jumlah tamu) dengan validasi mandiri. */
 public record HotelSearchCriteria(String location, LocalDate checkIn, LocalDate checkOut, int guests) {
 
     public static final int MAX_GUESTS = 8;

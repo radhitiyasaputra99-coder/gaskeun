@@ -209,5 +209,5 @@ Diagram ini otomatis tampil di GitHub. Kalau butuh dalam bentuk gambar, tempel k
 
 ## Pengujian
 
-Ada 29 test otomatis (`test.bat`) dan skenario uji manual lengkap di [TESTING.md](TESTING.md).
+Ada 30 test otomatis (`test.bat`) dan skenario uji manual lengkap di [TESTING.md](TESTING.md).
 Hasil program saat dijalankan ada di folder `docs/`.

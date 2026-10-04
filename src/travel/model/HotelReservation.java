@@ -8,10 +8,8 @@ import java.util.List;
 import travel.util.CurrencyFormat;
 import travel.util.DateFormats;
 
-/** Reservasi hotel. Final: tidak boleh diwarisi lagi. */
 public final class HotelReservation extends Reservation {
 
-    /** Snapshot hotel saat dipesan (berisi tanggal menginap, jumlah tamu, nomor konfirmasi). */
     private final Hotel hotel;
 
     public HotelReservation(int confirmationNumber, String guestName, String contact,
@@ -24,7 +22,6 @@ public final class HotelReservation extends Reservation {
         return hotel;
     }
 
-    /** Jumlah kamar yang dipegang reservasi ini. */
     public int getRooms() {
         return hotel.roomsNeededFor(hotel.getGuests());
     }
@@ -49,8 +46,6 @@ public final class HotelReservation extends Reservation {
 
     @Override
     public String cancel() {
-        // Ketersediaan kamar dihitung dari daftar reservasi aktif, jadi menghapus reservasi
-        // sudah otomatis melepas kamar. Di sini cukup memberi catatan.
         return getRooms() + " kamar dilepas kembali ke " + hotel.getName() + ".";
     }
 

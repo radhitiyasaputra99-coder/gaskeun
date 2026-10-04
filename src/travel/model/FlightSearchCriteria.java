@@ -3,10 +3,6 @@ package travel.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-/**
- * Kriteria pencarian penerbangan. Record bersifat immutable dan memvalidasi dirinya
- * sendiri di compact constructor, sehingga objek yang tidak valid tidak pernah terbentuk.
- */
 public record FlightSearchCriteria(String origin, String destination, LocalDate date, int passengers) {
 
     public static final int MAX_PASSENGERS = 9;

@@ -6,7 +6,6 @@ import travel.data.SampleData;
 import travel.service.TravelApp;
 import travel.ui.ConsoleMenu;
 
-/** Titik masuk aplikasi: merangkai TravelApp (logika) dengan ConsoleMenu (antarmuka) lalu menjalankannya. */
 public final class Main {
 
     private Main() {

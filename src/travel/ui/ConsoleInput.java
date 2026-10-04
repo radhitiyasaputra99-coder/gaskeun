@@ -15,11 +15,6 @@ import java.util.regex.Pattern;
 import travel.util.CityDirectory;
 import travel.util.DateFormats;
 
-/**
- * Pembungkus Scanner yang aman dipakai: setiap prompt mengulang sampai pengguna memberi
- * input valid. Input salah (huruf pada kolom angka, tanggal ngawur, kota tak dikenal, dst.)
- * ditangkap dengan try/catch dan tidak pernah membuat program crash.
- */
 public class ConsoleInput implements AutoCloseable {
 
     private static final Pattern NAME = Pattern.compile("^\\p{L}[\\p{L} .'-]{1,59}$");
@@ -34,7 +29,6 @@ public class ConsoleInput implements AutoCloseable {
         this.out = out;
     }
 
-    /** Menampilkan prompt dan membaca satu baris (sudah di-trim). */
     public String readLine(String label) {
         out.print(label + ": ");
         out.flush();
@@ -60,7 +54,6 @@ public class ConsoleInput implements AutoCloseable {
         }
     }
 
-    /** Angka opsional: baris kosong berarti "tidak memilih". */
     public OptionalInt promptOptionalInt(String label) {
         while (true) {
             String raw = readLine(label);

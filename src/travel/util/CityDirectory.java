@@ -8,17 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * Daftar kota yang didukung beserta kode bandara dan alias populer.
- * Dipakai untuk memvalidasi input kota, jadi "bali", "DPS", dan "Denpasar"
- * semuanya dikenali sebagai kota "Denpasar".
- */
 public final class CityDirectory {
 
-    /** kota kanonik -> kode bandara (urutan sesuai registrasi). */
     private static final Map<String, String> CODES = new LinkedHashMap<>();
 
-    /** teks huruf kecil (nama/kode/alias) -> kota kanonik. */
     private static final Map<String, String> LOOKUP = new HashMap<>();
 
     static {
@@ -43,7 +36,6 @@ public final class CityDirectory {
         }
     }
 
-    /** Mengubah input pengguna (nama, kode, atau alias) menjadi nama kota kanonik. */
     public static Optional<String> resolve(String input) {
         if (input == null || input.isBlank()) {
             return Optional.empty();
@@ -51,7 +43,6 @@ public final class CityDirectory {
         return Optional.ofNullable(LOOKUP.get(input.trim().toLowerCase(Locale.ROOT)));
     }
 
-    /** Kode bandara untuk sebuah kota; jika tidak dikenal, nama kota dikembalikan apa adanya. */
     public static String codeOf(String city) {
         return CODES.getOrDefault(city, city);
     }
@@ -60,7 +51,6 @@ public final class CityDirectory {
         return List.copyOf(CODES.keySet());
     }
 
-    /** Contoh: "Jakarta (CGK), Surabaya (SUB), ...". */
     public static String describeAll() {
         return CODES.entrySet().stream()
                 .map(e -> e.getKey() + " (" + e.getValue() + ")")

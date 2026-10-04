@@ -10,11 +10,6 @@ import travel.model.Flight;
 import travel.model.Hotel;
 import travel.service.TravelApp;
 
-/**
- * Data demo: jadwal penerbangan 30 hari ke depan (dibangkitkan relatif terhadap hari ini,
- * jadi demo selalu punya data) dan katalog hotel. Dibuat deterministik (tanpa Random)
- * agar hasil pengujian stabil.
- */
 public final class SampleData {
 
     private static final int DAYS_AHEAD = 30;
@@ -48,7 +43,6 @@ public final class SampleData {
     private SampleData() {
     }
 
-    /** Membuat TravelApp lengkap dengan data demo. */
     public static TravelApp createApp(Clock clock) {
         return new TravelApp(clock, flights(LocalDate.now(clock)), hotels());
     }
@@ -59,7 +53,6 @@ public final class SampleData {
             LocalDate date = today.plusDays(day);
             for (int r = 0; r < ROUTES.size(); r++) {
                 Route route = ROUTES.get(r);
-                // Harga naik sampai ~15% dan kursi bervariasi secara deterministik.
                 double factor = 1.0 + 0.03 * ((day * 7 + r) % 6);
                 long price = Math.round(route.basePrice() * factor / 1000.0) * 1000;
                 int seats = 6 + (day * 5 + r * 11) % 42;

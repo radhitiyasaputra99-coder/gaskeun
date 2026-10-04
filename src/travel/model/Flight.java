@@ -9,17 +9,6 @@ import travel.exception.InsufficientSeatsException;
 import travel.util.CurrencyFormat;
 import travel.util.DateFormats;
 
-/**
- * Entitas penerbangan. Semua field private dan diakses lewat getter/setter (enkapsulasi).
- *
- * <p>Satu kelas dipakai untuk dua peran:
- * <ul>
- *   <li><b>Inventori</b>: objek di katalog, {@code passengers} dan {@code confirmationNumber} bernilai 0.</li>
- *   <li><b>Snapshot pesanan</b>: salinan hasil {@link #bookedCopy(int, int)} yang menyimpan jumlah
- *       penumpang dan nomor konfirmasi, sehingga banyak pesanan pada penerbangan yang sama
- *       tidak saling menimpa data.</li>
- * </ul>
- */
 public class Flight implements Bookable {
 
     private final String flightNumber;
@@ -30,10 +19,10 @@ public class Flight implements Bookable {
     private final LocalTime departureTime;
     private final int durationMinutes;
 
-    private long price;             // harga per penumpang
-    private int seatsAvailable;     // sisa kursi (berlaku untuk inventori)
-    private int passengers;         // jumlah penumpang pada pesanan
-    private int confirmationNumber; // nomor konfirmasi 6 digit pada pesanan
+    private long price;
+    private int seatsAvailable;
+    private int passengers;
+    private int confirmationNumber;
 
     public Flight(String flightNumber, String airline, String origin, String destination,
                   LocalDate date, LocalTime departureTime, int durationMinutes,
@@ -49,13 +38,10 @@ public class Flight implements Bookable {
         this.seatsAvailable = (int) requireNonNegative(seatsAvailable, "Kursi tersedia");
     }
 
-    // ---------- perilaku bisnis ----------
-
     public boolean hasSeats(int count) {
         return seatsAvailable >= count;
     }
 
-    /** Mengurangi kursi tersedia; dilempar InsufficientSeatsException bila kursi tidak cukup. */
     public void reserveSeats(int count) throws InsufficientSeatsException {
         if (!hasSeats(count)) {
             throw new InsufficientSeatsException(flightNumber, count, seatsAvailable);
@@ -63,12 +49,10 @@ public class Flight implements Bookable {
         seatsAvailable -= count;
     }
 
-    /** Mengembalikan kursi ke inventori (dipakai saat pembatalan). */
     public void releaseSeats(int count) {
         seatsAvailable += count;
     }
 
-    /** Membuat snapshot pesanan dari penerbangan ini. */
     public Flight bookedCopy(int passengers, int confirmationNumber) {
         Flight copy = new Flight(flightNumber, airline, origin, destination, date,
                 departureTime, durationMinutes, price, 0);
@@ -89,7 +73,6 @@ public class Flight implements Bookable {
         return getDepartureDateTime().plusMinutes(durationMinutes);
     }
 
-    /** Jam tiba, ditambah "(+1)" bila tiba di hari berikutnya. */
     public String getArrivalLabel() {
         LocalDateTime arrival = getArrivalDateTime();
         String time = arrival.toLocalTime().format(DateFormats.TIME);
@@ -100,8 +83,6 @@ public class Flight implements Bookable {
     public String getDurationLabel() {
         return (durationMinutes / 60) + "j " + (durationMinutes % 60) + "m";
     }
-
-    // ---------- Bookable ----------
 
     @Override
     public String getId() {
@@ -117,8 +98,6 @@ public class Flight implements Bookable {
     public long getPrice() {
         return price;
     }
-
-    // ---------- getter / setter ----------
 
     public String getFlightNumber() {
         return flightNumber;

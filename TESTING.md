@@ -3,7 +3,7 @@
 Pengujian dilakukan tiga cara:
 
 1. **Alur uji manual berurutan** (bagian 1) dijalankan dalam satu sesi `run.bat`, mencakup semua fitur pada instruksi.
-2. **Test otomatis** (bagian 2), 29 test lewat `test.bat`.
+2. **Test otomatis** (bagian 2), 30 test lewat `test.bat`.
 3. **Bukti**: transkrip sesi nyata di [docs/test-session.txt](docs/test-session.txt) dan [docs/sample-session.txt](docs/sample-session.txt).
 
 ## 1. Alur uji manual berurutan
@@ -120,12 +120,12 @@ Kolom **Ketik** berisi urutan input, satu item per Enter.
 test.bat
 ```
 
-Hasil terakhir: **29 lulus, 0 gagal**. Waktu dikunci dengan `Clock.fixed` (4 Okt 2026) agar hasil selalu sama.
+Hasil terakhir: **30 lulus, 0 gagal**. Waktu dikunci dengan `Clock.fixed` (4 Okt 2026) agar hasil selalu sama.
 
 | Kelompok | Yang diverifikasi |
 |---|---|
 | Entitas & utilitas | Format Rupiah; pengenalan kota/kode/alias; nomor konfirmasi 6 digit dan unik (2000 percobaan); validasi record criteria; `Reservation` benar-benar `sealed` dengan tepat 2 subclass (via reflection) |
-| Penerbangan | Filter asal/tujuan/tanggal; urut harga termurah; filter kursi cukup; tanggal lampau ditolak; `bookFlight` mengurangi kursi dan menyimpan reservasi; snapshot tidak mengotori inventori; kursi kurang melempar `InsufficientSeatsException`; nomor penerbangan salah melempar `FlightNotFoundException`; pembatalan mengembalikan kursi |
+| Penerbangan | Filter asal/tujuan/tanggal; urut harga termurah; filter kursi cukup; penerbangan yang sudah berangkat hari ini disembunyikan; tanggal lampau ditolak; `bookFlight` mengurangi kursi dan menyimpan reservasi; snapshot tidak mengotori inventori; kursi kurang melempar `InsufficientSeatsException`; nomor penerbangan salah melempar `FlightNotFoundException`; pembatalan mengembalikan kursi |
 | Hotel | Filter kota; urut harga; hitung kamar/total untuk 3 vs 4 tamu; kamar habis pada tanggal tumpang tindih tapi tersedia lagi di tanggal bersebelahan; `NoRoomsAvailableException`; pembatalan melepas kamar; `HotelNotFoundException` |
 | Polimorfisme | Daftar campuran Flight + Hotel diproses lewat `Reservation` (total, hitung per jenis, `display()`) |
 | Konsol end-to-end | Skrip input dialirkan ke `ConsoleMenu`: input non-numerik, kota/tanggal salah, pencarian kosong, alur pesan penerbangan penuh, pesan hotel lalu batal, jawab `n` saat batal, EOF, daftar kosong |

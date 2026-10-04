@@ -4,22 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Helper untuk merender tabel dan kotak berbingkai di konsol.
- * Hanya memakai karakter ASCII (+ - |) supaya tampil benar di semua terminal Windows.
- */
 public final class ConsoleStyle {
 
     private ConsoleStyle() {
     }
 
-    /**
-     * Membuat tabel teks.
-     *
-     * @param headers      judul kolom
-     * @param rows         baris data (jumlah sel harus sama dengan headers)
-     * @param rightAligned indeks kolom (mulai 0) yang rata kanan, biasanya kolom angka/harga
-     */
     public static String table(String[] headers, List<String[]> rows, int... rightAligned) {
         int cols = headers.length;
         int[] widths = new int[cols];
@@ -49,7 +38,6 @@ public final class ConsoleStyle {
         return sb.toString();
     }
 
-    /** Membuat kotak berjudul, dipakai untuk tiket/struk dan ringkasan pesanan. */
     public static String box(String title, List<String> lines) {
         int width = title.length();
         for (String line : lines) {
